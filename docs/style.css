@@ -1,0 +1,64 @@
+.app {
+    --width: 70px;
+    --gap: 3px;
+}
+
+.app {
+    border: 1rem solid black;
+    display: grid;
+    grid: repeat(9, var(--width) ) / repeat(9, var(--width));
+    padding: 0.5rem;
+    .item {
+        border: 2px solid seagreen;
+        cursor: pointer;
+        font-size: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &.filled {
+            cursor: not-allowed;
+        }
+        &.changable {
+            color: lightblue;
+        }
+        &.invalid {
+            color: red;
+        }
+    }
+}
+
+.app-panel {
+    .checked {
+        max-width: 450px;
+    }
+}
+
+/* Grids */
+.app .item[data-row][data-col="3"],
+.app .item[data-row][data-col="6"],
+.app .item[data-row][data-col="9"]
+{
+    border-right: var(--gap) solid sandybrown;
+}
+
+
+.app .item[data-row][data-col="1"],
+.app .item[data-row][data-col="4"],
+.app .item[data-row][data-col="7"]
+{
+    border-left: var(--gap) solid sandybrown;
+}
+
+.app .item[data-row="3"],
+.app .item[data-row="6"],
+.app .item[data-row="9"]
+{
+    border-bottom: var(--gap) solid sandybrown;
+}
+
+.app .item[data-row="1"],
+.app .item[data-row="4"],
+.app .item[data-row="7"]
+{
+    border-top: var(--gap) solid sandybrown;
+}

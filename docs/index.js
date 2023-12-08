@@ -39,7 +39,8 @@ class SudokuController {
         }
     }
     check_grid_legal(row, col, row_index, col_index, main_array) {
-        const all_unique = (input = []) => input.every( (item, index, array) => array.indexOf(item) === index );
+        const items_are_unique = (item, index, array) => array.indexOf(item) === index;
+        const all_unique = (input = []) => input.filter( num => num > 0 ).every( items_are_unique );
         if( all_unique(row) === false ) {
             return false;
         }

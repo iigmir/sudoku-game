@@ -91,14 +91,14 @@ class SudokuController {
     get answer_checked() {
         return this.answer.map( (row, row_index, main_array) => {
             return row.map( (item, col_index, row_array) => {
-                if( item === 0 ) {
-                    return true;
-                }
+                const col = main_array.map( val => val[col_index] );
                 const itself_is_question = 0 !== this.question[row_index][col_index];
                 if( itself_is_question ) {
                     return true;
                 }
-                const col = main_array.map( val => val[col_index] );
+                if( item === 0 ) {
+                    return true;
+                }
                 return this.check_grid_legal( row, col, row_index, col_index, main_array );
             });
         });

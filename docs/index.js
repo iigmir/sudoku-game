@@ -51,7 +51,10 @@ class SudokuController {
                     return true;
                 }
                 const col = main_array.map( val => val[col_index] );
-                if( all_unique(row) === false || all_unique(col) === false ) {
+                if( all_unique(row) === false ) {
+                    return false;
+                }
+                if( all_unique(col) === false ) {
                     return false;
                 }
                 /**

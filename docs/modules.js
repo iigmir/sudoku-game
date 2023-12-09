@@ -105,7 +105,6 @@ export class SudokuController {
         }
     }
     /**
-     * @todo Can we use `constructor` instead?
      * @param {Array} input 
      */
     init_state(input = []) {

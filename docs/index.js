@@ -45,8 +45,8 @@ const check_and_mark_incorrect_answers = () => {
         if( is_question ) {
             return;
         }
-        const row_index = Number(dom.dataset["row"]);
-        const col_index = Number(dom.dataset["col"]);
+        const row_index = Number(dom.dataset["row"]) - 1;
+        const col_index = Number(dom.dataset["col"]) - 1;
         const legal = CheckIfGridLegal(row_index, col_index, main_array);
         if( legal ) {
             dom.classList.remove("invalid");

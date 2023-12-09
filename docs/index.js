@@ -1,4 +1,4 @@
-import { SudokuController, GridController } from "./modules.js";
+import { SudokuController, GridController, CheckIfGridLegal } from "./modules.js";
 
 const SUDOKU_EXAMPLE = [
     [5,3,0, 0,7,0, 0,0,0],
@@ -31,11 +31,29 @@ const render_questions = (question = []) => {
     question.forEach( (row_array, index_row) => { row_array.forEach( render_grid_text(index_row) ); });
 };
 
-
 const select_grid = (ev = MouseEvent) => {
     const dom = ev.target;
     grid_app.set_by_html(dom);
     document.querySelector(".app-panel .info").textContent = `Row: ${grid_app.row}; Col: ${grid_app.col}`;
+};
+
+const check_and_mark_incorrect_answers = () => {
+    const grids = [...document.querySelectorAll("#app .item")];
+    const main_array = sudoku_app.answer;
+    grids.forEach( (dom = Element) => {
+        const is_question = dom.classList.contains("filled");
+        if( is_question ) {
+            return;
+        }
+        const row_index = Number(dom.dataset["row"]);
+        const col_index = Number(dom.dataset["col"]);
+        const legal = CheckIfGridLegal(row_index, col_index, main_array);
+        if( legal ) {
+            dom.classList.remove("invalid");
+        } else {
+            dom.classList.add("invalid");
+        }
+    });
 };
 
 const update_grid_with_panel = (ev) => {
@@ -66,10 +84,13 @@ const update_grid_with_panel = (ev) => {
     sudoku_app.set_element( grid_app.row - 1, grid_app.col - 1, number );
     update_number_for_current_dom( number, current_dom );
     update_class_for_current_dom( number, current_dom );
+
+    // Check and mark incorrect answer;
+    check_and_mark_incorrect_answers();
 };
 
 window.addEventListener("DOMContentLoaded", (event) => {
-    sudoku_app.init_state(SUDOKU_EXAMPLE);
+    sudoku_app.init_state( SUDOKU_EXAMPLE );
     render_questions( sudoku_app.question );
     // Grid
     const grids = [...document.querySelectorAll("#app .item")];

@@ -24,6 +24,48 @@ export class SudokuController {
             }
         }
     }
+    get_grid_area(row_index, col_index, main_array) {
+        /**
+         * 
+         * @param {*} row_index 
+         * @param {*} col_index 
+         * @param {*} the_array
+         * 
+         * get_area_numbers(4,1,[
+            [5,3,0, 0,7,0, 0,0,0],
+            [6,0,0, 1,9,5, 0,0,0],
+            [0,9,8, 0,0,0, 0,6,0],
+
+            [8,0,0, 0,6,0, 0,0,3],
+            [4,0,0, 8,0,3, 0,0,1],
+            [7,0,0, 0,2,0, 0,0,6],
+
+            [0,6,0, 0,0,0, 2,8,0],
+            [0,0,0, 4,1,9, 0,0,5],
+            [0,0,0, 0,8,0, 0,7,9]
+        ]) => [8,0,0, 4,0,0, 7,0,0]
+         */
+        const get_area_numbers = (row_index, col_index, main_array = []) => {
+            const get_codes = (index) => {
+                const areas = [ 0,0,0, 1,1,1, 2,2,2 ];
+                const area_codes = [ [0,1,2], [3,4,5], [6,7,8] ];
+                return area_codes[ areas[index] ];
+            };
+            const row_elements = get_codes(row_index);
+            const col_elements = get_codes(col_index);
+            let numbers = [];
+            row_elements.forEach( (row_elem = []) => {
+                const alls = col_elements.map( c => main_array[row_elem][c] )
+                alls.forEach( i => numbers.push(i) );
+            });
+            return numbers;
+        };
+        return {
+            row: main_array[row_index],
+            col: main_array.map( val => val[col_index] ),
+            box: get_area_numbers(row_index, col_index, main_array),
+        };
+    }
     check_grid_legal(row, col, row_index, col_index, main_array) {
         const items_are_unique = (item, index, array) => array.indexOf(item) === index;
         const all_unique = (input = []) => input.filter( num => num > 0 ).every( items_are_unique );
@@ -78,6 +120,7 @@ export class SudokuController {
         return this.answer.map( (row, row_index, main_array) => {
             return row.map( (item, col_index, row_array) => {
                 const col = main_array.map( val => val[col_index] );
+                // Meta elements check
                 const itself_is_question = 0 !== this.question[row_index][col_index];
                 if( itself_is_question ) {
                     return true;

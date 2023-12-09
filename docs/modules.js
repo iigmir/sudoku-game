@@ -40,10 +40,11 @@ export class SudokuQuestion {
     [0,0,0, 0,8,0, 0,7,9]
 ]
 ```
- * Now first, what will the `row` be?
- * The answer is: `[4,0,0,8,0,3,0,0,1]` (because `[4,*,0,8,0,3,0,0,1]`)
- * Now, how about `col`? Easy, right? `[3,0,9,0,0,0,6,0,0]` (because `[3,0,9,0,*,0,6,0,0]`)
- * So now you know what will the `box` be? `[8,0,0,4,0,0,7,0,0]` (because `[8,0,0,4,*,0,7,0,0]`)
+ * Now first, what will the `row` be? The answer is: `[4,0,0,8,0,3,0,0,1]` (because `[4,*,0,8,0,3,0,0,1]`)
+ *
+ * How about `col`? Easy, right? `[3,0,9,0,0,0,6,0,0]` (because `[3,0,9,0,*,0,6,0,0]`)
+ * And what will the `box`? `[8,0,0,4,0,0,7,0,0]` (because `[8,0,0,4,*,0,7,0,0]`)
+ * 
  * Still confused? See `@see` for reference.
  * @see <https://en.wikipedia.org/wiki/Glossary_of_Sudoku>
  * @param {Number} row_index value X

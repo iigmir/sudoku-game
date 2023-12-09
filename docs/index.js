@@ -61,7 +61,6 @@ const update_grid_with_panel = () => {
         }
         sudoku_app.set_element( grid_app.row - 1, grid_app.col - 1, number );
         update_current_dom( current_dom, number );
-        document.querySelector(".app-panel .checked").textContent = JSON.stringify( sudoku_app.answer_checked );
     };
     const radio_inputs = [...document.querySelectorAll("input[name=sudoku-num]")];
     radio_inputs.forEach( radio => radio.addEventListener("change", main) );

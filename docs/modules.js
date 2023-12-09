@@ -94,11 +94,6 @@ export const CheckIfGridLegal = (row_index = 0, col_index = 0, main_array = []) 
 
 export const CheckArray = (answer = []) => {
     /**
-     * See the `CheckIfGridLegal` function.
-     * @returns 
-     */
-    const check_grid_legal = (row_index, col_index, main_array) => CheckIfGridLegal(row_index, col_index, main_array);
-    /**
      * If given `item` itself is question (same as the question number) or `0` which means unfilled,
      * then it must be legal because you can't be wrong for a question itself or an unanswered value.
      * @param {Number} row_index 
@@ -116,14 +111,12 @@ export const CheckArray = (answer = []) => {
         }
         return false;
     }
-    return answer.map( (row, row_index, main_array) => {
-        return row.map( (item, col_index, row_array) => {
-            if( check_grid_item_legal(row_index, col_index, item) ) {
-                return true;
-            }
-            return check_grid_legal( row_index, col_index, main_array );
-        });
-    });
+    return answer.map( (row, row_index, main_array) => row.map((item, col_index, row_array) => {
+        if (check_grid_item_legal(row_index, col_index, item)) {
+            return true;
+        }
+        return CheckIfGridLegal(row_index, col_index, main_array);
+    }));
 };
 
 class SudokuQuestion {

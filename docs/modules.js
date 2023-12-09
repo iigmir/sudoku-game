@@ -4,7 +4,6 @@ export class SudokuQuestion {
     reset_list() { this.list = [ [], [], [], [], [], [], [], [], [] ]; }
 }
 
-
 /**
  * We will return three arrays: `row`, `col`, and `box`. Now let me explain this.
  * 
@@ -69,9 +68,34 @@ export const GetAreaArrayByIndex = (row_index = 0, col_index = 0, main_array = [
     };
     return {
         row: main_array[row_index],
-        col: main_array.map( val => val[col_index] ),
+        col: main_array.map( (val = []) => val[col_index] ),
         box: get_box_area(row_index, col_index, main_array),
     };
+};
+
+/**
+ * You must an unique number (not deplicated with other number unless you are `0`) at row, col, and box. If either of them is not, return `false`.
+ * 
+ * If wondering how row, col, and box are made, refer the `GetAreaArrayByIndex` function.
+ * @param {Number} row_index value X
+ * @param {Number} col_index value Y
+ * @param {Array} main_array The array. The map.
+ * @returns 
+ */
+export const CheckIfGridLegal = (row_index = 0, col_index = 0, main_array = []) => {
+    const items_uniqued = (item, index, array) => array.indexOf(item) === index;
+    const all_unique = (input = []) => input.filter( num => num > 0 ).every( items_uniqued );
+    const { row, col, box } = GetAreaArrayByIndex(row_index, col_index, main_array);
+    if( all_unique(row) === false ) {
+        return false;
+    }
+    if( all_unique(col) === false ) {
+        return false;
+    }
+    if( all_unique(box) === false ) {
+        return false;
+    }
+    return true;
 };
 
 export class SudokuController {
@@ -95,26 +119,11 @@ export class SudokuController {
         }
     }
     /**
-     * You must an unique number (not deplicated with other number unless you are `0`) at row, col, and box. If either of them is not, return `false`.
-     * @param {Number} row_index value X
-     * @param {Number} col_index value Y
-     * @param {Array} main_array The array. The map.
+     * See the `CheckIfGridLegal` function.
      * @returns 
      */
     check_grid_legal(row_index, col_index, main_array) {
-        const items_uniqued = (item, index, array) => array.indexOf(item) === index;
-        const all_unique = (input = []) => input.filter( num => num > 0 ).every( items_uniqued );
-        const { row, col, box } = GetAreaArrayByIndex(row_index, col_index, main_array);
-        if( all_unique(row) === false ) {
-            return false;
-        }
-        if( all_unique(col) === false ) {
-            return false;
-        }
-        if( all_unique(box) === false ) {
-            return false;
-        }
-        return true;
+        return CheckIfGridLegal(row_index, col_index, main_array);
     }
     /**
      * If given `item` itself is question (same as the question number) or `0` which means unfilled,

@@ -99,6 +99,7 @@ class SudokuQuestion {
 }
 
 export class SudokuController {
+    // Init modules
     constructor(input) {
         if( input ) {
             this.init_state(input);
@@ -111,10 +112,12 @@ export class SudokuController {
         this.set_question_object([...input]);
         this.set_answer(input); 
     }
+
     // Question modules
     question_object = new SudokuQuestion()
     get question() { return this.question_object.list }
     set_question_object(input = []) { this.question_object.set_list(input) }
+
     // Answer modules
     answer = [ [], [], [], [], [], [], [], [], [] ]
     set_answer(input = []) {
@@ -129,6 +132,7 @@ export class SudokuController {
             }
         }
     }
+    
     // Checking modules
     /**
      * See the `CheckIfGridLegal` function.

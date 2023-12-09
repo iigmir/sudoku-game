@@ -1,9 +1,3 @@
-export class SudokuQuestion {
-    list = [ [], [], [], [], [], [], [], [], [] ]
-    set_list(input = []) { this.list = input; }
-    reset_list() { this.list = [ [], [], [], [], [], [], [], [], [] ]; }
-}
-
 /**
  * We will return three arrays: `row`, `col`, and `box`. Now let me explain this.
  * 
@@ -97,6 +91,12 @@ export const CheckIfGridLegal = (row_index = 0, col_index = 0, main_array = []) 
     }
     return true;
 };
+
+class SudokuQuestion {
+    list = [ [], [], [], [], [], [], [], [], [] ]
+    set_list(input = []) { this.list = input; }
+    reset_list() { this.list = [ [], [], [], [], [], [], [], [], [] ]; }
+}
 
 export class SudokuController {
     constructor(input) {

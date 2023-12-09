@@ -18,7 +18,7 @@ const SUDOKU_EXAMPLE = [
 const sudoku_app = new SudokuController();
 const grid_app = new GridController();
 
-// Event mothods
+// Actions
 const render_questions = (question = []) => {
     const render_grid_text = (index_row) => (item, index_col) => {
         if (item > 0) {
@@ -31,20 +31,18 @@ const render_questions = (question = []) => {
     question.forEach( (row_array, index_row) => { row_array.forEach( render_grid_text(index_row) ); });
 };
 
-const select_grid = (ev = MouseEvent) => {
-    const dom = ev.target;
-    grid_app.set_by_html(dom);
-    document.querySelector(".app-panel .info").textContent = `Row: ${grid_app.row}; Col: ${grid_app.col}`;
-};
-
 const check_and_mark_incorrect_answers = () => {
     const grids = [...document.querySelectorAll("#app .item")];
-    const main_array = sudoku_app.answer;
     grids.forEach( (dom = Element) => {
+        const main_array = sudoku_app.answer;
+
+        // Don't check question values
         const is_question = dom.classList.contains("filled");
         if( is_question ) {
             return;
         }
+
+        // Gogogo
         const row_index = Number(dom.dataset["row"]) - 1;
         const col_index = Number(dom.dataset["col"]) - 1;
         const legal = CheckIfGridLegal(row_index, col_index, main_array);
@@ -93,6 +91,11 @@ window.addEventListener("DOMContentLoaded", (event) => {
     sudoku_app.init_state( SUDOKU_EXAMPLE );
     render_questions( sudoku_app.question );
     // Grid
+    const select_grid = (ev = MouseEvent) => {
+        const dom = ev.target;
+        grid_app.set_by_html(dom);
+        document.querySelector(".app-panel .info").textContent = `Row: ${grid_app.row}; Col: ${grid_app.col}`;
+    };
     const grids = [...document.querySelectorAll("#app .item")];
     grids.forEach( el => el.addEventListener( "click", select_grid ) );
     // Inputs

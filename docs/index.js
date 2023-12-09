@@ -65,16 +65,10 @@ const update_grid_with_panel = (ev) => {
     // Set and update by answer: Functions
     const unfilled_answer = 0;
     const update_number_for_current_dom = (number = unfilled_answer, current_dom = Element) => {
-        current_dom.textContent = number;
-        if (number === unfilled_answer) {
-            current_dom.textContent = "";
-        }
+        current_dom.textContent = number === unfilled_answer ? "" : number;
     };
     const update_class_for_current_dom = (number = unfilled_answer, current_dom = Element) => {
-        current_dom.classList.add("changable");
-        if (number === unfilled_answer) {
-            current_dom.classList.remove("changable");
-        }
+        current_dom.classList.toggle( "changable", number === unfilled_answer );
     };
 
     // Set and update by answer: Actions
@@ -83,7 +77,7 @@ const update_grid_with_panel = (ev) => {
     update_number_for_current_dom( number, current_dom );
     update_class_for_current_dom( number, current_dom );
 
-    // Check and mark incorrect answer;
+    // Check and mark incorrect answers
     check_and_mark_incorrect_answers();
 };
 

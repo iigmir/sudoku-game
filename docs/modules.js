@@ -6,8 +6,8 @@ export class SudokuQuestion {
 
 
 /**
- * We will return three arrays: `row`, `col`, and `box`.
- * OK, let me explain this...
+ * We will return three arrays: `row`, `col`, and `box`. Now let me explain this.
+ * 
  * Let's assume the `main_array` is:
  ```
  [
@@ -93,61 +93,10 @@ export class SudokuController {
             }
         }
     }
-    /**
-     * We will return three arrays: `row`, `col`, and `box`.
-     * OK, let me explain this...
-     * Let's assume the `main_array` is:
-     * ```
-     * [
-        [5,3,0, 0,7,0, 0,0,0],
-        [6,0,0, 1,9,5, 0,0,0],
-        [0,9,8, 0,0,0, 0,6,0],
-
-        [8,0,0, 0,6,0, 0,0,3],
-        [4,0,0, 8,0,3, 0,0,1],
-        [7,0,0, 0,2,0, 0,0,6],
-
-        [0,6,0, 0,0,0, 2,8,0],
-        [0,0,0, 4,1,9, 0,0,5],
-        [0,0,0, 0,8,0, 0,7,9]
-    ]
-     * ```
-     * Then what if `row_index` is `4` and `col_index` is `1`? Where is it?
-     * ```
-     * [
-        [5,3,0, 0,7,0, 0,0,0],
-        [6,0,0, 1,9,5, 0,0,0],
-        [0,9,8, 0,0,0, 0,6,0],
-
-        [8,0,0, 0,6,0, 0,0,3],
-        [4,*,0, 8,0,3, 0,0,1], // <= Here the star!
-        [7,0,0, 0,2,0, 0,0,6],
-
-        [0,6,0, 0,0,0, 2,8,0],
-        [0,0,0, 4,1,9, 0,0,5],
-        [0,0,0, 0,8,0, 0,7,9]
-    ]
-     ```
-     * Now first, what will the `row` be?
-     * The answer is: `[4,0,0,8,0,3,0,0,1]` (because `[4,*,0,8,0,3,0,0,1]`)
-     * 
-     * Now, how about `col`? Easy, right? `[3,0,9,0,0,0,6,0,0]` (because `[3,0,9,0,*,0,6,0,0]`)
-     * 
-     * So now you know what will the `box` be? `[8,0,0,4,0,0,7,0,0]` (because `[8,0,0,4,*,0,7,0,0]`)
-     * 
-     * Still got questions? See `@see` for reference.
-     * @param {Number} row_index 
-     * @param {Number} col_index 
-     * @param {Array} main_array
-     * @see <https://en.wikipedia.org/wiki/Glossary_of_Sudoku>
-     */
-    get_grid_area(row_index, col_index, main_array) {
-        return GetAreaArrayByIndex( row_index, col_index, main_array );
-    }
     check_grid_legal(row_index, col_index, main_array) {
         const items_uniqued = (item, index, array) => array.indexOf(item) === index;
         const all_unique = (input = []) => input.filter( num => num > 0 ).every( items_uniqued );
-        const { row, col, box } = this.get_grid_area(row_index, col_index, main_array);
+        const { row, col, box } = GetAreaArrayByIndex(row_index, col_index, main_array);
         if( all_unique(row) === false ) {
             return false;
         }

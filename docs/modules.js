@@ -94,6 +94,13 @@ export class SudokuController {
             }
         }
     }
+    /**
+     * You must an unique number (not deplicated with other number unless you are `0`) at row, col, and box. If either of them is not, return `false`.
+     * @param {Number} row_index value X
+     * @param {Number} col_index value Y
+     * @param {Array} main_array The array. The map.
+     * @returns 
+     */
     check_grid_legal(row_index, col_index, main_array) {
         const items_uniqued = (item, index, array) => array.indexOf(item) === index;
         const all_unique = (input = []) => input.filter( num => num > 0 ).every( items_uniqued );
@@ -109,6 +116,14 @@ export class SudokuController {
         }
         return true;
     }
+    /**
+     * If given `item` itself is question (same as the question number) or `0` which means unfilled,
+     * then it must be legal because you can't be wrong for a question itself or an unanswered value.
+     * @param {Number} row_index 
+     * @param {Number} col_index 
+     * @param {Number} item 
+     * @returns {Boolean} Go
+     */
     check_grid_item_legal(row_index, col_index, item) {
         const itself_is_question = 0 !== this.question[row_index][col_index];
         if( itself_is_question ) {

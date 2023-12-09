@@ -81,17 +81,21 @@ export class SudokuController {
         }
         return true;
     }
+    check_grid_item_legal(row_index, col_index, item) {
+        const itself_is_question = 0 !== this.question[row_index][col_index];
+        if( itself_is_question ) {
+            return true;
+        }
+        if( item === 0 ) {
+            return true;
+        }
+        return false;
+    }
     // Sub
     get answer_checked() {
         return this.answer.map( (row, row_index, main_array) => {
             return row.map( (item, col_index, row_array) => {
-                const col = main_array.map( val => val[col_index] );
-                // Meta elements check
-                const itself_is_question = 0 !== this.question[row_index][col_index];
-                if( itself_is_question ) {
-                    return true;
-                }
-                if( item === 0 ) {
+                if( this.check_grid_item_legal(row_index, col_index, item) ) {
                     return true;
                 }
                 return this.check_grid_legal( row_index, col_index, main_array );

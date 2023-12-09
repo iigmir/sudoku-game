@@ -110,7 +110,7 @@ export class SudokuController {
      */
     init_state(input = []) {
         this.set_question_object([...input]);
-        this.answer = JSON.parse(JSON.stringify([...input])); 
+        this.set_answer(input); 
     }
     // Question modules
     question_object = new SudokuQuestion()
@@ -118,6 +118,9 @@ export class SudokuController {
     set_question_object(input = []) { this.question_object.set_list(input) }
     // Answer modules
     answer = [ [], [], [], [], [], [], [], [], [] ]
+    set_answer(input = []) {
+        this.answer = JSON.parse(JSON.stringify([...input])); 
+    }
     set_element(row = 1, col = 1, value = 0) {
         if( this.question[row][col] === 0 ) {
             this.answer[row][col] = value;

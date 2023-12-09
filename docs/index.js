@@ -14,6 +14,13 @@ const SUDOKU_EXAMPLE = [
     [0,0,0, 0,8,0, 0,7,9]
 ];
 
+/**
+ * @param {*} input Original number
+ * @returns Index number.
+ * @example get_index("1") // returns 0
+ */
+const get_index = (input) => Number(input) - 1;
+
 // Inited datas
 const sudoku_app = new SudokuController();
 const grid_app = new GridController();
@@ -43,8 +50,8 @@ const check_and_mark_incorrect_answers = () => {
         }
 
         // Gogogo
-        const row_index = Number(dom.dataset["row"]) - 1;
-        const col_index = Number(dom.dataset["col"]) - 1;
+        const row_index = get_index(dom.dataset["row"]);
+        const col_index = get_index(dom.dataset["col"]);
         const legal = CheckIfGridLegal(row_index, col_index, main_array);
         if( legal ) {
             dom.classList.remove("invalid");
@@ -67,7 +74,7 @@ const update_grid_with_panel = (ev) => {
     const number = Number(ev.target.value);
     const is_unfilled_answer = number === unfilled_answer;
 
-    sudoku_app.set_element( grid_app.row - 1, grid_app.col - 1, number );
+    sudoku_app.set_element( get_index(grid_app.row), get_index(get_indexgrid_app.col), number );
     current_dom.textContent = is_unfilled_answer ? "" : number;
     current_dom.classList.toggle( "changable", is_unfilled_answer );
 

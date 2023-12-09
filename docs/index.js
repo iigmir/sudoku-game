@@ -48,19 +48,24 @@ const update_grid_with_panel = (ev) => {
 
     // Set and update by answer: Functions
     const unfilled_answer = 0;
-    function update_current_dom(current_dom = Element, number = unfilled_answer) {
+    const update_number_for_current_dom = (number = unfilled_answer, current_dom = Element) => {
         current_dom.textContent = number;
-        current_dom.classList.add("changable");
         if (number === unfilled_answer) {
             current_dom.textContent = "";
+        }
+    };
+    const update_class_for_current_dom = (number = unfilled_answer, current_dom = Element) => {
+        current_dom.classList.add("changable");
+        if (number === unfilled_answer) {
             current_dom.classList.remove("changable");
         }
-    }
+    };
 
     // Set and update by answer: Actions
     const number = Number(ev.target.value);
     sudoku_app.set_element( grid_app.row - 1, grid_app.col - 1, number );
-    update_current_dom( current_dom, number );
+    update_number_for_current_dom( number, current_dom );
+    update_class_for_current_dom( number, current_dom );
 };
 
 window.addEventListener("DOMContentLoaded", (event) => {

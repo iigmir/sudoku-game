@@ -39,6 +39,14 @@ const select_grid = (ev = MouseEvent) => {
 };
 
 const update_grid_with_panel = (ev) => {
+    // Check current DOM is legal
+    const current_dom = document.querySelector(grid_app.current_grid_selector);
+    const current_dom_unavaiable = (element) => !element || element.classList.contains("filled");
+    if( current_dom_unavaiable(current_dom) ) {
+        return;
+    }
+
+    // Set and update by answer: Functions
     const unfilled_answer = 0;
     function update_current_dom(current_dom = Element, number = unfilled_answer) {
         current_dom.textContent = number;
@@ -48,11 +56,8 @@ const update_grid_with_panel = (ev) => {
             current_dom.classList.remove("changable");
         }
     }
-    const current_dom_not_avaiable = (element) => !element || element.classList.contains("filled");
-    const current_dom = document.querySelector(grid_app.current_grid_selector);
-    if( current_dom_not_avaiable(current_dom) ) {
-        return;
-    }
+
+    // Set and update by answer: Actions
     const number = Number(ev.target.value);
     sudoku_app.set_element( grid_app.row - 1, grid_app.col - 1, number );
     update_current_dom( current_dom, number );

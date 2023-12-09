@@ -92,6 +92,40 @@ export const CheckIfGridLegal = (row_index = 0, col_index = 0, main_array = []) 
     return true;
 };
 
+export const CheckArray = (answer = []) => {
+    /**
+     * See the `CheckIfGridLegal` function.
+     * @returns 
+     */
+    const check_grid_legal = (row_index, col_index, main_array) => CheckIfGridLegal(row_index, col_index, main_array);
+    /**
+     * If given `item` itself is question (same as the question number) or `0` which means unfilled,
+     * then it must be legal because you can't be wrong for a question itself or an unanswered value.
+     * @param {Number} row_index 
+     * @param {Number} col_index 
+     * @param {Number} item 
+     * @returns {Boolean} Go
+     */
+    const check_grid_item_legal = (row_index, col_index, item) => {
+        const itself_is_question = 0 !== this.question[row_index][col_index];
+        if( itself_is_question ) {
+            return true;
+        }
+        if( item === 0 ) {
+            return true;
+        }
+        return false;
+    }
+    return answer.map( (row, row_index, main_array) => {
+        return row.map( (item, col_index, row_array) => {
+            if( check_grid_item_legal(row_index, col_index, item) ) {
+                return true;
+            }
+            return check_grid_legal( row_index, col_index, main_array );
+        });
+    });
+};
+
 class SudokuQuestion {
     list = [ [], [], [], [], [], [], [], [], [] ]
     set_list(input = []) { this.list = input; }
@@ -134,40 +168,8 @@ export class SudokuController {
     }
     
     // Checking modules
-    /**
-     * See the `CheckIfGridLegal` function.
-     * @returns 
-     */
-    check_grid_legal(row_index, col_index, main_array) {
-        return CheckIfGridLegal(row_index, col_index, main_array);
-    }
-    /**
-     * If given `item` itself is question (same as the question number) or `0` which means unfilled,
-     * then it must be legal because you can't be wrong for a question itself or an unanswered value.
-     * @param {Number} row_index 
-     * @param {Number} col_index 
-     * @param {Number} item 
-     * @returns {Boolean} Go
-     */
-    check_grid_item_legal(row_index, col_index, item) {
-        const itself_is_question = 0 !== this.question[row_index][col_index];
-        if( itself_is_question ) {
-            return true;
-        }
-        if( item === 0 ) {
-            return true;
-        }
-        return false;
-    }
     get answer_checked() {
-        return this.answer.map( (row, row_index, main_array) => {
-            return row.map( (item, col_index, row_array) => {
-                if( this.check_grid_item_legal(row_index, col_index, item) ) {
-                    return true;
-                }
-                return this.check_grid_legal( row_index, col_index, main_array );
-            });
-        });
+        return CheckArray(this.answer);
     }
 }
 

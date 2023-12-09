@@ -99,6 +99,15 @@ export const CheckIfGridLegal = (row_index = 0, col_index = 0, main_array = []) 
 };
 
 export class SudokuController {
+    constructor(input) {
+        if( input ) {
+            this.init_state(input);
+        }
+    }
+    /**
+     * @todo Can we use `constructor` instead?
+     * @param {Array} input 
+     */
     init_state(input = []) {
         this.set_question_object([...input]);
         this.answer = JSON.parse(JSON.stringify([...input])); 
@@ -118,6 +127,7 @@ export class SudokuController {
             }
         }
     }
+    // Checking modules
     /**
      * See the `CheckIfGridLegal` function.
      * @returns 
@@ -143,7 +153,6 @@ export class SudokuController {
         }
         return false;
     }
-    // Sub
     get answer_checked() {
         return this.answer.map( (row, row_index, main_array) => {
             return row.map( (item, col_index, row_array) => {

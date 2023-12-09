@@ -14,6 +14,8 @@ const SUDOKU_EXAMPLE = [
     [0,0,0, 0,8,0, 0,7,9]
 ];
 
+const UNFILLED_NUMBER = 0;
+
 /**
  * @param {*} input Original number
  * @returns Index number.
@@ -55,6 +57,7 @@ const check_and_mark_incorrect_answers = () => {
         const legal = CheckIfGridLegal(row_index, col_index, main_array);
         if( legal ) {
             dom.classList.remove("invalid");
+            dom.classList.toggle( "changable", !dom.classList.contains("filled") );
         } else {
             dom.classList.add("invalid");
         }
@@ -70,9 +73,8 @@ const update_grid_with_panel = (ev) => {
     }
 
     // Set and update by answer
-    const unfilled_answer = 0;
     const number = Number(ev.target.value);
-    const is_unfilled_answer = number === unfilled_answer;
+    const is_unfilled_answer = number === UNFILLED_NUMBER;
 
     sudoku_app.set_element( get_index(grid_app.row), get_index(grid_app.col), number );
     current_dom.textContent = is_unfilled_answer ? "" : number;

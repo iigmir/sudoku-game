@@ -74,7 +74,7 @@ const update_grid_with_panel = (ev) => {
     const number = Number(ev.target.value);
     const is_unfilled_answer = number === unfilled_answer;
 
-    sudoku_app.set_element( get_index(grid_app.row), get_index(get_indexgrid_app.col), number );
+    sudoku_app.set_element( get_index(grid_app.row), get_index(grid_app.col), number );
     current_dom.textContent = is_unfilled_answer ? "" : number;
     current_dom.classList.toggle( "changable", is_unfilled_answer );
 

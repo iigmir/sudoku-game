@@ -87,6 +87,7 @@ const update_grid_with_panel = (ev) => {
 window.addEventListener("DOMContentLoaded", (event) => {
     sudoku_app.init_state( SUDOKU_EXAMPLE );
     render_questions( sudoku_app.question );
+
     // Grid action
     const grids = [...document.querySelectorAll("#app .item")];
     grids.forEach( el => el.addEventListener( "click", ev => grid_app.select_grid_event(ev.target) ) );

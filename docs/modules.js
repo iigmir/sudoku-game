@@ -153,6 +153,8 @@ export class SudokuController {
     set_element(row = 1, col = 1, value = 0) {
         if( this.question[row][col] === 0 ) {
             this.answer[row][col] = value;
+
+            // The app must crash if question is polluted
             if( this.question[row][col] === this.answer[row][col] && this.answer[row][col] !== 0 ) {
                 debugger;
                 throw new Error("Question array polluted");
@@ -194,9 +196,8 @@ export class GridController {
     render_doms() {
         document.querySelector(".app-panel .info").textContent = `Row: ${this.row}; Col: ${this.col}`;
 
-        // Selected class
+        // Selected class actions
         [...document.querySelectorAll("#app .item.selected")].forEach( d => d.classList.remove("selected") );
-        // this.selected
         document.querySelector( this.current_grid_selector ).classList.add( "selected" );
     }
 

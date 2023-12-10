@@ -1,4 +1,4 @@
-import { SudokuController, GridController, CheckIfGridLegal } from "./modules.js";
+import { SudokuController, GridController, CheckIfGridLegal, GetCurrentGridDom } from "./modules.js";
 
 const SUDOKU_EXAMPLE = [
     [5,3,0, 0,7,0, 0,0,0],
@@ -66,7 +66,7 @@ const check_and_mark_incorrect_answers = () => {
 
 const update_grid_with_panel = (ev) => {
     // Check current DOM is legal
-    const current_dom = document.querySelector(grid_app.current_grid_selector);
+    const current_dom = document.querySelector( GetCurrentGridDom(grid_app.row, grid_app.col) );
     const current_dom_unavaiable = (element) => !element || element.classList.contains("filled");
     if( current_dom_unavaiable(current_dom) ) {
         return;

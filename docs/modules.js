@@ -119,6 +119,8 @@ export const CheckArray = (answer = []) => {
     }));
 };
 
+export const GetCurrentGridDom = (row = 1, col = 1) => `#app .item[data-row="${row}"][data-col="${col}"]`;
+
 class SudokuQuestion {
     list = [ [], [], [], [], [], [], [], [], [] ]
     set_list(input = []) { this.list = input; }
@@ -200,16 +202,12 @@ export class GridController {
         this.grid_state.set_selected( !this.grid_state.selected );
     }
 
-    // DOM rendering metods
-    get current_grid_selector() {
-        return `#app .item[data-row="${this.row}"][data-col="${this.col}"]`;
-    }
     render_doms(dom = Element) {
         document.querySelector(".app-panel .info").textContent = `Row: ${this.row}; Col: ${this.col}`;
 
         // Selected class actions
         [...document.querySelectorAll("#app .item.selected")].forEach( d => d.classList.remove("selected") );
-        document.querySelector( this.current_grid_selector ).classList.add( "selected" );
+        document.querySelector( GetCurrentGridDom(this.row, this.col) ).classList.add( "selected" );
     }
 
     // Main event

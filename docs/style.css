@@ -1,6 +1,6 @@
 .app {
     --width: 70px;
-    --gap: 3px;
+    --gap: 2px;
 }
 
 .app {
@@ -9,7 +9,7 @@
     grid: repeat(9, var(--width) ) / repeat(9, var(--width));
     padding: 0.5rem;
     .item {
-        border: 2px solid seagreen;
+        border: var(--gap) solid seagreen;
         cursor: pointer;
         font-size: 2rem;
         display: flex;
@@ -38,7 +38,7 @@
 .app .item[data-row][data-col="6"],
 .app .item[data-row][data-col="9"]
 {
-    border-right: var(--gap) solid sandybrown;
+    border-right: calc(var(--gap) * 2) solid burlywood;
 }
 
 
@@ -46,21 +46,21 @@
 .app .item[data-row][data-col="4"],
 .app .item[data-row][data-col="7"]
 {
-    border-left: var(--gap) solid sandybrown;
+    border-left: calc(var(--gap) * 2) solid burlywood;
 }
 
 .app .item[data-row="3"],
 .app .item[data-row="6"],
 .app .item[data-row="9"]
 {
-    border-bottom: var(--gap) solid sandybrown;
+    border-bottom: calc(var(--gap) * 2) solid burlywood;
 }
 
 .app .item[data-row="1"],
 .app .item[data-row="4"],
 .app .item[data-row="7"]
 {
-    border-top: var(--gap) solid sandybrown;
+    border-top: calc(var(--gap) * 2) solid burlywood;
 }
 
 .app .item.selected[data-row][data-col] {

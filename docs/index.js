@@ -97,8 +97,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     grids.forEach( el => el.addEventListener( "click", select_grid ) );
 
     // Input action
-    const radio_inputs = [...document.querySelectorAll("input[name=sudoku-num]")];
-    radio_inputs.forEach( radio => radio.addEventListener("change", update_grid_with_panel ) );
+    document.querySelector("*[name=sudoku-num]").addEventListener( "change", update_grid_with_panel );
     update_grid_with_panel();
 });
 

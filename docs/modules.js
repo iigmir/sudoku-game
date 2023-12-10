@@ -168,25 +168,40 @@ export class SudokuController {
     }
 }
 
-export class GridController {
-    // States and setting methods
-    row = 0
-    col = 0
-    selected = false
-    set_row(input = 0) { this.row = Number(input) }
-    set_col(input = 0) { this.col = Number(input) }
-    set_selected(input = false) { this.selected = input; }
-
-    // Advanced setting methods
-    set_by_given_dom(dom = Element) {
-        this.set_col( Number(dom.dataset.col) ?? 0 );
-        this.set_row( Number(dom.dataset.row) ?? 0 );
-        this.set_selected( !this.selected );
+class GridState {
+    constructor() {
+        this.row = 0;
+        this.col = 0;
+        this.selected = false;
+    }
+    set_row(input = 0) {
+        this.row = Number(input)
+    }
+    set_col(input = 0) {
+        this.col = Number(input)
+    }
+    set_selected(input = false) {
+        this.selected = input;
     }
     reset_grid() {
         this.set_col( 0 );
         this.set_row( 0 );
         this.set_selected( false );
+    }
+}
+
+export class GridController {
+    grid_state = new GridState()
+    // States and setting methods
+    get row() { return this.grid_state.row; }
+    get col() { return this.grid_state.col; }
+    get selected() { return this.grid_state.selected; }
+
+    // Advanced setting methods
+    set_by_given_dom(dom = Element) {
+        this.grid_state.set_col( Number(dom.dataset.col) ?? 0 );
+        this.grid_state.set_row( Number(dom.dataset.row) ?? 0 );
+        this.grid_state.set_selected( !this.grid_state.selected );
     }
 
     // DOM rendering metods

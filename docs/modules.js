@@ -169,9 +169,10 @@ export class SudokuController {
 export class GridController {
     row = 0
     col = 0
+    selected = false
     set_row(input = 0) { this.row = Number(input) }
     set_col(input = 0) { this.col = Number(input) }
-    set_by_html(dom = Element) {
+    set_by_given_dom(dom = Element) {
         this.set_col( Number(dom.dataset.col) ?? 0 );
         this.set_row( Number(dom.dataset.row) ?? 0 );
     }
@@ -181,5 +182,12 @@ export class GridController {
     }
     get current_grid_selector() {
         return `#app .item[data-row="${this.row}"][data-col="${this.col}"]`;
+    }
+    render_doms() {
+        document.querySelector(".app-panel .info").textContent = `Row: ${this.row}; Col: ${this.col}`;
+    }
+    select_grid_event(dom = Element) {
+        this.set_by_given_dom(dom);
+        this.render_doms(dom);
     }
 }

@@ -88,13 +88,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
     sudoku_app.init_state( SUDOKU_EXAMPLE );
     render_questions( sudoku_app.question );
     // Grid action
-    const select_grid = (ev = MouseEvent) => {
-        const dom = ev.target;
-        grid_app.set_by_html(dom);
-        document.querySelector(".app-panel .info").textContent = `Row: ${grid_app.row}; Col: ${grid_app.col}`;
-    };
     const grids = [...document.querySelectorAll("#app .item")];
-    grids.forEach( el => el.addEventListener( "click", select_grid ) );
+    grids.forEach( el => el.addEventListener( "click", ev => grid_app.select_grid_event(ev.target) ) );
 
     // Input action
     document.querySelector("*[name=sudoku-num]").addEventListener( "change", update_grid_with_panel );

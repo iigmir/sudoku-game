@@ -16,21 +16,24 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        &.filled {
-            cursor: not-allowed;
-        }
-        &.changable {
-            color: lightblue;
-        }
-        &.invalid {
-            color: red;
-        }
     }
 }
 
 .app-panel {
     .checked {
         max-width: 450px;
+    }
+}
+
+.app .item {
+    &.filled {
+        cursor: not-allowed;
+    }
+    &.changable {
+        color: lightblue;
+    }
+    &.invalid {
+        color: red;
     }
 }
 

@@ -4,7 +4,6 @@
 }
 
 .app {
-    border: 1rem solid black;
     display: grid;
     grid: repeat(9, var(--width) ) / repeat(9, var(--width));
     padding: 0.5rem;
@@ -12,6 +11,8 @@
         border: var(--gap) solid seagreen;
         cursor: pointer;
         font-size: 2rem;
+
+        /* Centering text */
         display: flex;
         justify-content: center;
         align-items: center;
@@ -36,30 +37,26 @@
 /* Grids */
 .app .item[data-row][data-col="3"],
 .app .item[data-row][data-col="6"],
-.app .item[data-row][data-col="9"]
-{
+.app .item[data-row][data-col="9"] {
     border-right: calc(var(--gap) * 2) solid burlywood;
 }
 
 
 .app .item[data-row][data-col="1"],
 .app .item[data-row][data-col="4"],
-.app .item[data-row][data-col="7"]
-{
+.app .item[data-row][data-col="7"] {
     border-left: calc(var(--gap) * 2) solid burlywood;
 }
 
 .app .item[data-row="3"],
 .app .item[data-row="6"],
-.app .item[data-row="9"]
-{
+.app .item[data-row="9"] {
     border-bottom: calc(var(--gap) * 2) solid burlywood;
 }
 
 .app .item[data-row="1"],
 .app .item[data-row="4"],
-.app .item[data-row="7"]
-{
+.app .item[data-row="7"] {
     border-top: calc(var(--gap) * 2) solid burlywood;
 }
 

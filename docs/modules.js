@@ -169,17 +169,15 @@ export class SudokuController {
 }
 
 class GridState {
-    constructor() {
-        this.row = 0;
-        this.col = 0;
-        this.selected = false;
-    }
+    row = 0;
     set_row(input = 0) {
         this.row = Number(input)
     }
+    col = 0;
     set_col(input = 0) {
         this.col = Number(input)
     }
+    selected = false;
     set_selected(input = false) {
         this.selected = input;
     }

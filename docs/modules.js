@@ -44,7 +44,7 @@
  * @param {Number} col_index value Y
  * @param {Array} main_array The array. The map.
 */    
-export const GetAreaArrayByIndex = (row_index = 0, col_index = 0, main_array = []) => {
+const GetAreaArrayByIndex = (row_index = 0, col_index = 0, main_array = []) => {
     const get_box_area = (row_index, col_index, main_array = []) => {
         const get_codes = (index) => {
             const areas = [ 0,0,0, 1,1,1, 2,2,2 ];
@@ -92,7 +92,7 @@ export const CheckIfGridLegal = (row_index = 0, col_index = 0, main_array = []) 
     return true;
 };
 
-export const CheckArray = (answer = []) => {
+const CheckArray = (answer = []) => {
     /**
      * If given `item` itself is question (same as the question number) or `0` which means unfilled,
      * then it must be legal because you can't be wrong for a question itself or an unanswered value.

@@ -62,3 +62,7 @@
 {
     border-top: var(--gap) solid sandybrown;
 }
+
+.app .item.selected[data-row][data-col] {
+    border: calc(var(--gap) * 2) solid red;
+}

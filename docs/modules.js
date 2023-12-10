@@ -204,7 +204,7 @@ export class GridController {
     get current_grid_selector() {
         return `#app .item[data-row="${this.row}"][data-col="${this.col}"]`;
     }
-    render_doms() {
+    render_doms(dom = Element) {
         document.querySelector(".app-panel .info").textContent = `Row: ${this.row}; Col: ${this.col}`;
 
         // Selected class actions

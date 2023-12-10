@@ -68,6 +68,34 @@ const GetAreaArrayByIndex = (row_index = 0, col_index = 0, main_array = []) => {
 };
 
 /**
+ * If given `item` itself is question (same as the question number) or `0` which means unfilled,
+ * then it must be legal because you can't be wrong for a question itself or an unanswered value.
+ * @param {Number} row_index 
+ * @param {Number} col_index 
+ * @param {Number} item 
+ * @returns {Boolean} Go
+ */
+const CheckGridItemIsLegal = (row_index, col_index, item) => {
+    const itself_is_question = 0 !== this.question[row_index][col_index];
+    if( itself_is_question ) {
+        return true;
+    }
+    if( item === 0 ) {
+        return true;
+    }
+    return false;
+}
+
+const CheckArray = (answer = []) => {
+    return answer.map( (row, row_index, main_array) => row.map((item, col_index, row_array) => {
+        if (CheckGridItemIsLegal(row_index, col_index, item)) {
+            return true;
+        }
+        return CheckIfGridLegal(row_index, col_index, main_array);
+    }));
+};
+
+/**
  * You must an unique number (not deplicated with other number unless you are `0`) at row, col, and box. If either of them is not, return `false`.
  * 
  * If wondering how row, col, and box are made, refer the `GetAreaArrayByIndex` function.
@@ -90,33 +118,6 @@ export const CheckIfGridLegal = (row_index = 0, col_index = 0, main_array = []) 
         return false;
     }
     return true;
-};
-
-const CheckArray = (answer = []) => {
-    /**
-     * If given `item` itself is question (same as the question number) or `0` which means unfilled,
-     * then it must be legal because you can't be wrong for a question itself or an unanswered value.
-     * @param {Number} row_index 
-     * @param {Number} col_index 
-     * @param {Number} item 
-     * @returns {Boolean} Go
-     */
-    const check_grid_item_legal = (row_index, col_index, item) => {
-        const itself_is_question = 0 !== this.question[row_index][col_index];
-        if( itself_is_question ) {
-            return true;
-        }
-        if( item === 0 ) {
-            return true;
-        }
-        return false;
-    }
-    return answer.map( (row, row_index, main_array) => row.map((item, col_index, row_array) => {
-        if (check_grid_item_legal(row_index, col_index, item)) {
-            return true;
-        }
-        return CheckIfGridLegal(row_index, col_index, main_array);
-    }));
 };
 
 export const GetCurrentGridDom = (row = 1, col = 1) => `#app .item[data-row="${row}"][data-col="${col}"]`;

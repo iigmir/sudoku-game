@@ -190,12 +190,10 @@ class GridState {
 
 export class GridController {
     grid_state = new GridState()
-    // States and setting methods
     get row() { return this.grid_state.row; }
     get col() { return this.grid_state.col; }
     get selected() { return this.grid_state.selected; }
 
-    // Advanced setting methods
     set_by_given_dom(dom = Element) {
         this.grid_state.set_col( Number(dom.dataset.col) ?? 0 );
         this.grid_state.set_row( Number(dom.dataset.row) ?? 0 );

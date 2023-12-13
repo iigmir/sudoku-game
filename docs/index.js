@@ -36,29 +36,36 @@ const render_questions = (question = []) => {
  * Check answered grids, see if it is legal.
  * If not, make the grid invalid.
  */
-const mark_incorrect_answers = () => {
-    const grids = [...document.querySelectorAll("#app .item")];
-    grids.forEach( (dom) => {
-        const main_array = sudoku_app.answer;
+const mark_incorrect_answers = (dom) => {
+    const main_array = sudoku_app.answer;
 
-        // Don't check question values
-        const is_question = grid_has_filled( dom );
-        if( is_question ) {
-            return;
-        }
+    // Don't check question values
+    const is_question = grid_has_filled(dom);
+    if (is_question) {
+        return;
+    }
 
-        // Variables for actions following
-        const row_index = get_index(dom.dataset["row"]);
-        const col_index = get_index(dom.dataset["col"]);
-        const legal = CheckIfGridLegal(row_index, col_index, main_array);
+    // Variables for actions following
+    const row_index = get_index(dom.dataset["row"]);
+    const col_index = get_index(dom.dataset["col"]);
+    const legal = CheckIfGridLegal(row_index, col_index, main_array);
 
-        // Actions
-        dom.classList.toggle( "invalid", !legal );
-        if( legal ) {
-            dom.classList.toggle( "changable", !grid_has_filled( dom ) );
-        }
-    });
+    // Actions
+    dom.classList.toggle("invalid", !legal);
+    if (legal) {
+        dom.classList.toggle("changable", !grid_has_filled(dom));
+    }
 };
+
+const mark_hints = (grid) => {
+    const main_array = sudoku_app.answer;
+    const row_index = get_index(dom.dataset["row"]);
+    const col_index = get_index(dom.dataset["col"]);
+    const legal = CheckIfGridLegal(row_index, col_index, main_array);
+    if (legal) {
+        grid.dataset.hints = JSON.stringify(sudoku_app.sudoku_hints[row_index][col_index]);
+    }
+}
 
 const update_grid_with_panel = (ev) => {
     // Check current DOM is legal
@@ -77,7 +84,11 @@ const update_grid_with_panel = (ev) => {
     current_dom.classList.toggle( "changable", is_unfilled_answer );
 
     // Check and mark incorrect answers
-    mark_incorrect_answers();
+    const grids = [...document.querySelectorAll("#app .item")];
+    grids.forEach( (grid) => {
+        mark_incorrect_answers(grid);
+        mark_hints(grid);
+    });
 };
 
 window.addEventListener("DOMContentLoaded", (event) => {
@@ -91,4 +102,3 @@ window.addEventListener("DOMContentLoaded", (event) => {
     // Input action
     document.querySelector("*[name=sudoku-num]").addEventListener( "change", update_grid_with_panel );
 });
-

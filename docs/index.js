@@ -27,7 +27,11 @@ const get_index = (input) => Number(input) - 1;
 const sudoku_app = new SudokuController();
 const grid_app = new GridController();
 
-const grid_has_filled = (dom = Element) => dom.classList.contains("filled");
+const grid_has_filled = (dom = Element) => Boolean(dom.dataset.filled) === true;
+const set_grid_filled = (grid = Element) => {
+    grid.classList.add("filled");
+    grid.dataset.filled = true;
+};
 
 // Actions
 const render_questions = (question = []) => {
@@ -36,8 +40,7 @@ const render_questions = (question = []) => {
             const grid_selector = `#app .item[data-row="${index_row + 1}"][data-col="${index_col + 1}"]`;
             const grid = document.querySelector(grid_selector);
             grid.textContent = item;
-            grid.classList.add("filled");
-            grid.dataset.filled = true;
+            set_grid_filled(grid);
         }
     };
     question.forEach( (row_array, index_row) => { row_array.forEach( render_grid_text(index_row) ); });

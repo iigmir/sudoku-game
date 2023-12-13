@@ -1,6 +1,7 @@
-import { CheckIfGridLegal } from "./algorithm.js";
+import { CheckIfGridLegal, GetAreaArrayByIndex } from "./algorithm.js";
 
 const UNFILLED_NUMBER = 0;
+const AVAILABLE_VALUES = [1,2,3,4,5,6,7,8,9];
 
 const CheckArray = (answer = [], question = []) => {
     /**
@@ -120,6 +121,17 @@ export class SudokuController {
     // Checking modules
     get answer_checked() {
         return CheckArray(this.answer, this.question);
+    }
+
+    // Other modules
+    get sudoku_hints() {
+        return this.answer.map( (row, row_index, main_array) => {
+            return row.map( (val, col_index) => {
+                const areas = GetAreaArrayByIndex(row_index, col_index, main_array);
+                const filled_array = areas.row.concat(areas.col).concat(areas.box);
+                return AVAILABLE_VALUES.filter( (value) => !filled_array.includes(value) );
+            });
+        });
     }
 }
 

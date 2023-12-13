@@ -61,7 +61,7 @@ export const GetAreaArrayByIndex = (row_index = 0, col_index = 0, main_array = [
         return numbers;
     };
     return {
-        row: main_array[row_index],
+        row: [...main_array[row_index]],
         col: main_array.map( (val = []) => val[col_index] ),
         box: get_box_area(row_index, col_index, main_array),
     };

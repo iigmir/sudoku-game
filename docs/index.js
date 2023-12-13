@@ -53,7 +53,7 @@ const get_grid_info = (dom, main_array = []) => {
     };
 };
 
-const render_grid_action = (grid) => {
+const render_sudoku_grid = (grid) => {
     const main_array = sudoku_app.answer;
     const sudoku_hints = sudoku_app.sudoku_hints;
     const { row_index, col_index, legal } = get_grid_info(grid, main_array);
@@ -87,7 +87,7 @@ const update_grid_with_panel = (ev) => {
 
     // Check and mark incorrect answers
     const grids = [...document.querySelectorAll("#app .item")];
-    grids.forEach( render_grid_action );
+    grids.forEach( render_sudoku_grid );
 };
 
 window.addEventListener("DOMContentLoaded", (event) => {
@@ -106,7 +106,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         grid.addEventListener( "click", ev => {
             grid_app.select_grid_event(ev.target)
         });
-        render_grid_action(grid);
+        render_sudoku_grid(grid);
     });
 
     // Input action

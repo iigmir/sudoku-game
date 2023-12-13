@@ -12,8 +12,8 @@ const CheckArray = (answer = [], clues = []) => {
      * @returns {Boolean} Go
      */
     const CheckGridItemIsLegal = (row_index, col_index, item, clues = [[]]) => {
-        const itself_is_a_clue = 0 !== clues[row_index][col_index];
-        if( itself_is_a_clue ) {
+        const is_a_clue = 0 !== clues[row_index][col_index];
+        if( is_a_clue ) {
             return true;
         }
         if( item === 0 ) {
@@ -31,12 +31,12 @@ const CheckArray = (answer = [], clues = []) => {
 
 export const GetCurrentGridDom = (row = 1, col = 1) => `#app .item[data-row="${row}"][data-col="${col}"]`;
 
-/**
- * A standard Sudoku contains 81 cells, in a 9×9 grid, and has 9 boxes,
- * each box being the intersection of the first, middle, or last 3 rows,
- * and the first, middle, or last 3 columns.
- */
 class BasicSubokuArea {
+    /**
+     * A standard Sudoku contains 81 cells, in a 9×9 grid, and has 9 boxes,
+     * each box being the intersection of the first, middle, or last 3 rows,
+     * and the first, middle, or last 3 columns.
+     */
     list = [ [], [], [], [], [], [], [], [], [] ]
     set_list(input = []) { this.list = JSON.parse(JSON.stringify([...input])); }
     reset_list() { this.list = [ [], [], [], [], [], [], [], [], [] ]; }

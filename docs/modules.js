@@ -75,8 +75,8 @@ const GetAreaArrayByIndex = (row_index = 0, col_index = 0, main_array = []) => {
  * @param {Number} item 
  * @returns {Boolean} Go
  */
-const CheckGridItemIsLegal = (row_index, col_index, item) => {
-    const itself_is_question = 0 !== this.question[row_index][col_index];
+const CheckGridItemIsLegal = (row_index, col_index, item, question = [[]]) => {
+    const itself_is_question = 0 !== question[row_index][col_index];
     if( itself_is_question ) {
         return true;
     }
@@ -86,9 +86,9 @@ const CheckGridItemIsLegal = (row_index, col_index, item) => {
     return false;
 }
 
-const CheckArray = (answer = []) => {
+const CheckArray = (answer = [], question = []) => {
     return answer.map( (row, row_index, main_array) => row.map((item, col_index, row_array) => {
-        if (CheckGridItemIsLegal(row_index, col_index, item)) {
+        if (CheckGridItemIsLegal(row_index, col_index, item, question)) {
             return true;
         }
         return CheckIfGridLegal(row_index, col_index, main_array);
@@ -167,7 +167,7 @@ export class SudokuController {
     
     // Checking modules
     get answer_checked() {
-        return CheckArray(this.answer);
+        return CheckArray(this.answer, this.question);
     }
 }
 

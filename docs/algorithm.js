@@ -46,13 +46,13 @@
 */    
 export const GetAreaArrayByIndex = (row_index = 0, col_index = 0, main_array = []) => {
     const get_box_area = (row_index, col_index, main_array = []) => {
-        const get_codes = (index) => {
+        const get_area_indices = (index) => {
             const areas = [ 0,0,0, 1,1,1, 2,2,2 ];
             const area_codes = [ [0,1,2], [3,4,5], [6,7,8] ];
             return area_codes[ areas[index] ];
         };
-        const row_elements = get_codes(row_index);
-        const col_elements = get_codes(col_index);
+        const row_elements = get_area_indices(row_index);
+        const col_elements = get_area_indices(col_index);
         let numbers = [];
         row_elements.forEach( (row_elem = []) => {
             const alls = col_elements.map( c => main_array[row_elem][c] )

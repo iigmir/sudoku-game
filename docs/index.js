@@ -1,6 +1,6 @@
 import { SudokuController, GridController, GetCurrentGridDom } from "./modules.js";
 import { CheckIfGridLegal } from "./algorithm.js";
-import { UNFILLED_NUMBER, SUDOKU_EXAMPLE } from "./constants.js";
+import { UNFILLED_NUMBER, SUDOKU_EXAMPLE, AVAILABLE_VALUES } from "./constants.js";
 import {
     RenderGridText,
     MarkIncorrectAnswerGrid,
@@ -58,8 +58,9 @@ const render_grid_action = (grid) => {
     const sudoku_hints = sudoku_app.sudoku_hints;
     const { row_index, col_index, legal } = get_grid_info(grid, main_array);
 
-    // Don't check clue values
+    // Don't check clue values and mark no hints to them.
     if (grid_has_filled(grid)) {
+        grid.dataset.hints = "[]";
         return;
     }
 
@@ -105,19 +106,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         grid.addEventListener( "click", ev => {
             grid_app.select_grid_event(ev.target)
         });
-        // Marking hints
-        // const main_array = sudoku_app.answer;
-        // const sudoku_hints = sudoku_app.sudoku_hints;
-        // const { row_index, col_index, legal } = get_grid_info(grid, main_array);
-        
-        // // Don't check clue values
-        // if( grid_has_filled(grid) ) {
-        //     return;
-        // }
-
-        // const values = sudoku_hints[row_index][col_index];
-        // MarkIncorrectAnswerGrid(legal, grid);
-        // MarkHintsToGrid(values, legal, grid);
+        render_grid_action(grid);
     });
 
     // Input action

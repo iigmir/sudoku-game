@@ -31,8 +31,16 @@ export const GetCurrentGridDom = (row = 1, col = 1) => `#app .item[data-row="${r
 
 class SudokuQuestion {
     list = [ [], [], [], [], [], [], [], [], [] ]
-    set_list(input = []) { this.list = input; }
+    set_list(input = []) { this.list = JSON.parse(JSON.stringify([...input])); }
     reset_list() { this.list = [ [], [], [], [], [], [], [], [], [] ]; }
+}
+class SudokuAnswer {
+    list = [ [], [], [], [], [], [], [], [], [] ]
+    set_list(input = []) { this.list = JSON.parse(JSON.stringify([...input])); }
+    reset_list() { this.list = [ [], [], [], [], [], [], [], [], [] ]; }
+    set_element(row = 1, col = 1, value = 0) {
+        this.list[row][col] = value;
+    }
 }
 
 export class SudokuController {
@@ -56,13 +64,12 @@ export class SudokuController {
     set_question_object(input = []) { this.question_object.set_list(input) }
 
     // Answer modules
-    answer = [ [], [], [], [], [], [], [], [], [] ]
-    set_answer(input = []) {
-        this.answer = JSON.parse(JSON.stringify([...input])); 
-    }
+    answer_object = new SudokuAnswer()
+    get answer() { return this.answer_object.list; }
+    set_answer(input = []) { this.answer_object.set_list( JSON.parse(JSON.stringify([...input])) ); }
     set_element(row = 1, col = 1, value = 0) {
         if( this.question[row][col] === 0 ) {
-            this.answer[row][col] = value;
+            this.answer_object.set_element( row, col, value );
 
             // The app must crash if question is polluted
             if( this.question[row][col] === this.answer[row][col] && this.answer[row][col] !== 0 ) {

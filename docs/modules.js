@@ -1,7 +1,5 @@
 import { CheckIfGridLegal, GetAreaArrayByIndex } from "./algorithm.js";
-
-const UNFILLED_NUMBER = 0;
-const AVAILABLE_VALUES = [1,2,3,4,5,6,7,8,9];
+import { UNFILLED_NUMBER, AVAILABLE_VALUES } from "./constants.js";
 
 const CheckArray = (answer = [], question = []) => {
     /**

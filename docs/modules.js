@@ -61,7 +61,7 @@ export class SudokuController {
      */
     init_state(input = []) {
         this.set_question_object([...input]);
-        this.set_answer(input); 
+        this.set_answer_object(input); 
     }
 
     // Question modules
@@ -72,7 +72,7 @@ export class SudokuController {
     // Answer modules
     answer_object = new SudokuAnswer()
     get answer() { return this.answer_object.list; }
-    set_answer(input = []) { this.answer_object.set_list( JSON.parse(JSON.stringify([...input])) ); }
+    set_answer_object(input = []) { this.answer_object.set_list( JSON.parse(JSON.stringify([...input])) ); }
     set_element(row = 1, col = 1, value = 0) {
         if( this.question[row][col] === 0 ) {
             this.answer_object.set_element( row, col, value );

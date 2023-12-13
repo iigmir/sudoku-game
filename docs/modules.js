@@ -2,18 +2,18 @@ import { CheckIfGridLegal, GetAreaArrayByIndex } from "./algorithm.js";
 import { UNFILLED_NUMBER, AVAILABLE_VALUES } from "./constants.js";
 import { RenderSelectionTextAndInfo } from "./rendering-modules.js";
 
-const CheckArray = (answer = [], question = []) => {
+const CheckArray = (answer = [], clues = []) => {
     /**
-     * If given `item` itself is question (same as the question number) or `0` which means unfilled,
-     * then it must be legal because you can't be wrong for a question itself or an unanswered value.
+     * If given `item` itself is clues (same as the clue number) or `0` which means unfilled,
+     * then it must be legal because you can't be wrong for a clue itself or an unanswered value.
      * @param {Number} row_index 
      * @param {Number} col_index 
      * @param {Number} item 
      * @returns {Boolean} Go
      */
-    const CheckGridItemIsLegal = (row_index, col_index, item, question = [[]]) => {
-        const itself_is_question = 0 !== question[row_index][col_index];
-        if( itself_is_question ) {
+    const CheckGridItemIsLegal = (row_index, col_index, item, clues = [[]]) => {
+        const itself_is_a_clue = 0 !== clues[row_index][col_index];
+        if( itself_is_a_clue ) {
             return true;
         }
         if( item === 0 ) {
@@ -22,7 +22,7 @@ const CheckArray = (answer = [], question = []) => {
         return false;
     };
     return answer.map( (row, row_index, main_array) => row.map((item, col_index, row_array) => {
-        if (CheckGridItemIsLegal(row_index, col_index, item, question)) {
+        if (CheckGridItemIsLegal(row_index, col_index, item, clues)) {
             return true;
         }
         return CheckIfGridLegal(row_index, col_index, main_array);
@@ -71,9 +71,15 @@ export class SudokuController {
         this.set_answer_object(input); 
     }
 
-    // Question modules
+    // Clue modules
     clue_object = new SudokuClue()
+    /**
+     * @deprecated Please use "this.clues" instead
+     */
     get question() {
+        return this.clue_object.list;
+    }
+    get clues() {
         return this.clue_object.list;
     }
     set_clue_object(input = []) {
@@ -89,21 +95,21 @@ export class SudokuController {
         this.answer_object.set_list( input );
     }
     set_element(row = 1, col = 1, value = 0) {
-        if( this.question[row][col] === 0 ) {
+        if( this.clues[row][col] === 0 ) {
             this.answer_object.set_element( row, col, value );
-            this.check_if_question_is_polluted( row, col );
+            this.check_if_clues_are_polluted( row, col );
         }
     }
     /**
-     * Checks if the question is polluted,
-     * indicating that "this.question" state has been changed improperly.
+     * Checks if the clues are polluted,
+     * indicating that "this.clues" state has been changed improperly.
      * The app will crash if pollution is detected.
      *
      * @param {number} row - The row index.
      * @param {number} col - The column index.
      * @throws {Error} - Throws an error if pollution is detected.
      */
-    check_if_question_is_polluted(row = 1, col = 1) {
+    check_if_clues_are_polluted(row = 1, col = 1) {
         /**
          * No answer, No change, No pollution.
          */
@@ -112,19 +118,19 @@ export class SudokuController {
             return;
         }
         /**
-         * If the question and answer are the same,
+         * If the clues and answer are the same,
          * throw an error indicating pollution.
          */
-        const question_and_answer_are_equal = this.question[row][col] === this.answer[row][col];
-        if( question_and_answer_are_equal ) {
+        const clue_and_answer_are_equal = this.clues[row][col] === this.answer[row][col];
+        if( clue_and_answer_are_equal ) {
             debugger;
-            throw new Error(`The question is polluted in row ${row} and column ${col}`);
+            throw new Error(`The clues is polluted in row ${row} and column ${col}`);
         }
     }
     
     // Checking modules
     get answer_checked() {
-        return CheckArray(this.answer, this.question);
+        return CheckArray(this.answer, this.clues);
     }
 
     // Other modules

@@ -107,7 +107,7 @@ export const SolveSudoku = (input = [[]]) => {
         const empty_answer = [ [], [], [], [], [], [], [], [], [], ];
         return empty_answer;
     }
-    const question = JSON.parse( JSON.stringify(input) );
-    const answer = JSON.parse( JSON.stringify(input) );
-    return answer;
+    const clues = JSON.parse( JSON.stringify(input) );
+    const answers = JSON.parse( JSON.stringify(input) );
+    return answers;
 };

@@ -29,15 +29,21 @@ const CheckArray = (answer = [], question = []) => {
 
 export const GetCurrentGridDom = (row = 1, col = 1) => `#app .item[data-row="${row}"][data-col="${col}"]`;
 
-class SudokuQuestion {
+class BasicSubokuArea {
     list = [ [], [], [], [], [], [], [], [], [] ]
     set_list(input = []) { this.list = JSON.parse(JSON.stringify([...input])); }
     reset_list() { this.list = [ [], [], [], [], [], [], [], [], [] ]; }
 }
-class SudokuAnswer {
-    list = [ [], [], [], [], [], [], [], [], [] ]
-    set_list(input = []) { this.list = JSON.parse(JSON.stringify([...input])); }
-    reset_list() { this.list = [ [], [], [], [], [], [], [], [], [] ]; }
+class SudokuQuestion extends BasicSubokuArea {}
+class SudokuAnswer extends BasicSubokuArea {
+    /**
+     * Unlike SudokuQuestion which is fixed list,
+     * answer will change every time.
+     * This is why the "set_element" method exist.
+     * @param {Number} row 
+     * @param {Number} col 
+     * @param {Number} value 
+     */
     set_element(row = 1, col = 1, value = 0) {
         this.list[row][col] = value;
     }

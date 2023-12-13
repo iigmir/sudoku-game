@@ -33,22 +33,49 @@ const render_questions = (question = []) => {
 };
 
 /**
- * Check answered grids, see if it is legal.
- * If not, make the grid invalid.
+ * Calculate information about a grid element.
+ * If the grid represents a question, returns default values.
+ * If the grid represents an answered cell, calculates and returns the row index,
+ * column index, and legality of the answer in the context of the Sudoku game.
+ * 
+ * @author ChatGPT <https://chat.openai.com>
+ * @param {HTMLElement} dom - The HTML element representing a Sudoku grid cell.
+ * @param {Array} main_array - A two-deusion array element representing a Sudoku values.
+ * @returns {Object} An object containing information about the grid:
+ *   - row_index: The row index of the grid (or null for a question).
+ *   - col_index: The column index of the grid (or null for a question).
+ *   - legal: A boolean indicating whether the answer is legal (always false for a question).
  */
-const mark_incorrect_answers = (dom) => {
-    const main_array = sudoku_app.answer;
-
-    // Don't check question values
+const get_grid_info = (dom, main_array = []) => {
     const is_question = grid_has_filled(dom);
     if (is_question) {
-        return;
+        return {
+            row_index: null,
+            col_index: null,
+            legal: false
+        };
     }
-
-    // Variables for actions following
     const row_index = get_index(dom.dataset["row"]);
     const col_index = get_index(dom.dataset["col"]);
     const legal = CheckIfGridLegal(row_index, col_index, main_array);
+    return {
+        row_index,
+        col_index,
+        legal
+    };
+};
+
+/**
+ * Check answered grids, see if it is legal.
+ * If not, make the grid invalid.
+ */
+const mark_incorrect_answers = (dom, main_array = []) => {
+    const { legal } = get_grid_info(dom, main_array);
+
+    // Don't check question values
+    if ( legal == null ) {
+        return;
+    }
 
     // Actions
     dom.classList.toggle("invalid", !legal);
@@ -57,13 +84,10 @@ const mark_incorrect_answers = (dom) => {
     }
 };
 
-const mark_hints = (grid) => {
-    const main_array = sudoku_app.answer;
-    const row_index = get_index(dom.dataset["row"]);
-    const col_index = get_index(dom.dataset["col"]);
-    const legal = CheckIfGridLegal(row_index, col_index, main_array);
+const mark_hints = (dom, main_array = []) => {
+    const { row_index, col_index, legal } = get_grid_info(dom, main_array);
     if (legal) {
-        grid.dataset.hints = JSON.stringify(sudoku_app.sudoku_hints[row_index][col_index]);
+        dom.dataset.hints = JSON.stringify(sudoku_app.sudoku_hints[row_index][col_index]);
     }
 }
 
@@ -86,8 +110,9 @@ const update_grid_with_panel = (ev) => {
     // Check and mark incorrect answers
     const grids = [...document.querySelectorAll("#app .item")];
     grids.forEach( (grid) => {
-        mark_incorrect_answers(grid);
-        mark_hints(grid);
+        const main_array = sudoku_app.answer;
+        mark_incorrect_answers(grid, main_array);
+        mark_hints(grid, main_array);
     });
 };
 

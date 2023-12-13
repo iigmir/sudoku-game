@@ -1,4 +1,5 @@
-import { SudokuController, GridController, CheckIfGridLegal, GetCurrentGridDom } from "./modules.js";
+import { SudokuController, GridController, GetCurrentGridDom } from "./modules.js";
+import { CheckIfGridLegal } from "./algorithm.js";
 
 const SUDOKU_EXAMPLE = [
     [5,3,0, 0,7,0, 0,0,0],

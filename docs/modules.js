@@ -1,4 +1,4 @@
-import { GetAreaArrayByIndex } from "./algorithm.js";
+import { CheckIfGridLegal } from "./algorithm.js";
 
 const CheckArray = (answer = [], question = []) => {
     /**
@@ -25,31 +25,6 @@ const CheckArray = (answer = [], question = []) => {
         }
         return CheckIfGridLegal(row_index, col_index, main_array);
     }));
-};
-
-/**
- * You must an unique number (not deplicated with other number unless you are `0`) at row, col, and box. If either of them is not, return `false`.
- * 
- * If wondering how row, col, and box are made, refer the `GetAreaArrayByIndex` function.
- * @param {Number} row_index value X
- * @param {Number} col_index value Y
- * @param {Array} main_array The array. The map.
- * @returns 
- */
-export const CheckIfGridLegal = (row_index = 0, col_index = 0, main_array = []) => {
-    const items_uniqued = (item, index, array) => array.indexOf(item) === index;
-    const all_unique = (input = []) => input.filter( num => num > 0 ).every( items_uniqued );
-    const { row, col, box } = GetAreaArrayByIndex(row_index, col_index, main_array);
-    if( all_unique(row) === false ) {
-        return false;
-    }
-    if( all_unique(col) === false ) {
-        return false;
-    }
-    if( all_unique(box) === false ) {
-        return false;
-    }
-    return true;
 };
 
 export const GetCurrentGridDom = (row = 1, col = 1) => `#app .item[data-row="${row}"][data-col="${col}"]`;

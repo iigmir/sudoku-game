@@ -99,7 +99,17 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
     // Grid action
     const grids = [...document.querySelectorAll("#app .item")];
-    grids.forEach( el => el.addEventListener( "click", ev => grid_app.select_grid_event(ev.target) ) );
+    grids.forEach( grid => {
+        grid.addEventListener( "click", ev => {
+            grid_app.select_grid_event(ev.target)
+        });
+        // Marking hints
+        // console.log(el.dataset, sudoku_app.answer);
+        // const { row_index, col_index } = grid(el, sudoku_app.answer);
+        // console.log(row_index, col_index);
+        // const values = sudoku_app.sudoku_hints[row_index][col_index];
+        // MarkHintsToGrid(values, true, el);
+    });
 
     // Input action
     document.querySelector("*[name=sudoku-num]").addEventListener( "change", update_grid_with_panel );

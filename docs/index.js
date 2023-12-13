@@ -8,7 +8,7 @@ import {
     RenderCurrentGridValue,
 } from "./rendering-modules.js";
 
-// Inited datas
+// Global datas
 const sudoku_app = new SudokuController();
 const grid_app = new GridController();
 
@@ -91,11 +91,11 @@ const update_grid_with_panel = (ev) => {
     });
 };
 
-window.addEventListener("DOMContentLoaded", (event) => {
-    sudoku_app.init_state( SUDOKU_EXAMPLE );
-    sudoku_app.clues.forEach( (row_array, index_row) => {
-        row_array.forEach( (item, index_col) => {
-            if( item > 0 ) {
+const main = (event = Event) => {
+    sudoku_app.init_state(SUDOKU_EXAMPLE);
+    sudoku_app.clues.forEach((row_array, index_row) => {
+        row_array.forEach((item, index_col) => {
+            if (item > 0) {
                 RenderGridText(item, index_row, index_col);
             }
         });
@@ -103,13 +103,15 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
     // Grid action
     const grids = [...document.querySelectorAll("#app .item")];
-    grids.forEach( grid => {
-        grid.addEventListener( "click", ev => {
-            grid_app.select_grid_event(ev.target)
+    grids.forEach(grid => {
+        grid.addEventListener("click", ev => {
+            grid_app.select_grid_event(ev.target);
         });
         render_sudoku_grid(grid);
     });
 
     // Input action
-    document.querySelector("*[name=sudoku-num]").addEventListener( "change", update_grid_with_panel );
-});
+    document.querySelector("*[name=sudoku-num]").addEventListener("change", update_grid_with_panel);
+};
+
+window.addEventListener("DOMContentLoaded", main );

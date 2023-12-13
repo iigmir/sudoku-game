@@ -30,6 +30,11 @@ export const MarkHintsForAnswerGrid = (values = [], legal = false, dom = Element
 
 export const GetCurrentGridDom = (row = 1, col = 1) => `#app .item[data-row="${row}"][data-col="${col}"]`;
 
+/**
+ * Mark current selected gird, and show current row and col player current selected.
+ * @param {Number} row 
+ * @param {Number} col 
+ */
 export const RenderSelectionTextAndInfo = (row = 1, col = 1) => {
     document.querySelector(".app-panel .info").textContent = `Row: ${row}; Col: ${col}`;
     [...document.querySelectorAll("#app .item.selected")].forEach( d => d.classList.remove("selected") );

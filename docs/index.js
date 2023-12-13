@@ -1,10 +1,11 @@
 import { SudokuController, GridController, GetCurrentGridDom } from "./modules.js";
 import { CheckIfGridLegal } from "./algorithm.js";
-import { UNFILLED_NUMBER, SUDOKU_EXAMPLE, AVAILABLE_VALUES } from "./constants.js";
+import { SUDOKU_EXAMPLE } from "./constants.js";
 import {
     RenderGridText,
     MarkIncorrectAnswerGrid,
     MarkHintsToGrid,
+    RenderCurrentGridValue,
 } from "./rendering-modules.js";
 
 // Inited datas
@@ -78,16 +79,16 @@ const update_grid_with_panel = (ev) => {
     }
 
     // Set and update by answer
-    const number = Number(ev.target.value);
-    const is_unfilled_answer = number === UNFILLED_NUMBER;
+    const number = Number(ev.target.value) ?? 0;
 
     sudoku_app.set_element( get_index(grid_app.row), get_index(grid_app.col), number );
-    current_dom.textContent = is_unfilled_answer ? "" : number;
-    current_dom.classList.toggle( "changable", is_unfilled_answer );
+    RenderCurrentGridValue( grid_app.row, grid_app.col, number );
 
     // Check and mark incorrect answers
     const grids = [...document.querySelectorAll("#app .item")];
-    grids.forEach( render_sudoku_grid );
+    grids.forEach( grid => {
+        render_sudoku_grid(grid);
+    });
 };
 
 window.addEventListener("DOMContentLoaded", (event) => {

@@ -1,3 +1,7 @@
+import { UNFILLED_NUMBER } from "./constants.js";
+
+const grid_has_filled = (dom = Element) => Boolean(dom.dataset.filled) === true;
+
 export const RenderGridText = ( item = 0, index_row = 1, index_col = 1 ) => {
     const grid_selector = `#app .item[data-row="${index_row + 1}"][data-col="${index_col + 1}"]`;
     const grid = document.querySelector(grid_selector);
@@ -13,9 +17,6 @@ export const RenderGridText = ( item = 0, index_row = 1, index_col = 1 ) => {
  * If the grid is not legal, make the grid invalid.
  */
 export const MarkIncorrectAnswerGrid = (legal = false, dom = Element) => {
-    const grid_has_filled = (dom = Element) => Boolean(dom.dataset.filled) === true;
-    
-    // Action
     dom.classList.toggle("invalid", !legal);
     if (legal) {
         dom.classList.toggle("changable", !grid_has_filled(dom));
@@ -45,4 +46,15 @@ export const RenderSelectionTextAndInfo = (row = 1, col = 1) => {
     document.querySelector(".app-panel .info").textContent = `Row: ${row}; Col: ${col}`;
     [...document.querySelectorAll("#app .item.selected")].forEach( d => d.classList.remove("selected") );
     document.querySelector( GetCurrentGridDom(row, col) ).classList.add( "selected" );
+};
+
+export const RenderCurrentGridValue = (row = 1, col = 1, value = 0) => {
+    const current_dom = document.querySelector( GetCurrentGridDom(row, col) );
+    const current_dom_unavaiable = (dom) => !dom || grid_has_filled( dom );
+    if( current_dom_unavaiable(current_dom) ) {
+        return;
+    }
+    const is_unfilled_answer = value === UNFILLED_NUMBER;
+    current_dom.textContent = is_unfilled_answer ? "" : value;
+    current_dom.classList.toggle( "changable", is_unfilled_answer );
 };

@@ -7,16 +7,16 @@ import {
     MarkHintsForAnswerGrid,
 } from "./rendering-modules.js";
 
+// Inited datas
+const sudoku_app = new SudokuController();
+const grid_app = new GridController();
+
 /**
  * @param {*} input Original number
  * @returns Index number.
  * @example get_index("1") // returns 0
  */
 const get_index = (input) => Number(input) - 1;
-
-// Inited datas
-const sudoku_app = new SudokuController();
-const grid_app = new GridController();
 
 const grid_has_filled = (dom = Element) => Boolean(dom.dataset.filled) === true;
 

@@ -32,9 +32,13 @@ const render_questions = (question = []) => {
     question.forEach( (row_array, index_row) => { row_array.forEach( render_grid_text(index_row) ); });
 };
 
-const check_and_mark_incorrect_answers = () => {
+/**
+ * Check answered grids, see if it is legal.
+ * If not, make the grid invalid.
+ */
+const mark_incorrect_answers = () => {
     const grids = [...document.querySelectorAll("#app .item")];
-    grids.forEach( (dom = Element) => {
+    grids.forEach( (dom) => {
         const main_array = sudoku_app.answer;
 
         // Don't check question values
@@ -43,15 +47,15 @@ const check_and_mark_incorrect_answers = () => {
             return;
         }
 
-        // Gogogo
+        // Variables for actions following
         const row_index = get_index(dom.dataset["row"]);
         const col_index = get_index(dom.dataset["col"]);
         const legal = CheckIfGridLegal(row_index, col_index, main_array);
+
+        // Actions
+        dom.classList.toggle( "invalid", !legal );
         if( legal ) {
-            dom.classList.remove("invalid");
             dom.classList.toggle( "changable", !grid_has_filled( dom ) );
-        } else {
-            dom.classList.add("invalid");
         }
     });
 };
@@ -73,7 +77,7 @@ const update_grid_with_panel = (ev) => {
     current_dom.classList.toggle( "changable", is_unfilled_answer );
 
     // Check and mark incorrect answers
-    check_and_mark_incorrect_answers();
+    mark_incorrect_answers();
 };
 
 window.addEventListener("DOMContentLoaded", (event) => {

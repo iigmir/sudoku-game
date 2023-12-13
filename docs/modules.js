@@ -1,5 +1,7 @@
 import { CheckIfGridLegal } from "./algorithm.js";
 
+const UNFILLED_NUMBER = 0;
+
 const CheckArray = (answer = [], question = []) => {
     /**
      * If given `item` itself is question (same as the question number) or `0` which means unfilled,
@@ -60,36 +62,58 @@ export class SudokuController {
      * @param {Array} input 
      */
     init_state(input = []) {
-        this.set_question_object([...input]);
+        this.set_question_object(input);
         this.set_answer_object(input); 
     }
 
     // Question modules
     question_object = new SudokuQuestion()
-    get question() { return this.question_object.list }
-    set_question_object(input = []) { this.question_object.set_list(input) }
+    get question() {
+        return this.question_object.list;
+    }
+    set_question_object(input = []) {
+        this.question_object.set_list(input);
+    }
 
     // Answer modules
     answer_object = new SudokuAnswer()
-    get answer() { return this.answer_object.list; }
-    set_answer_object(input = []) { this.answer_object.set_list( JSON.parse(JSON.stringify([...input])) ); }
+    get answer() {
+        return this.answer_object.list;
+    }
+    set_answer_object(input = []) { 
+        this.answer_object.set_list( input );
+    }
     set_element(row = 1, col = 1, value = 0) {
         if( this.question[row][col] === 0 ) {
             this.answer_object.set_element( row, col, value );
-            this.check_if_question_polluted(row, col);
+            this.check_if_question_is_polluted( row, col );
         }
     }
     /**
-     * The app must crash if question is polluted.
+     * Checks if the question is polluted,
+     * indicating that "this.question" state has been changed improperly.
+     * The app will crash if pollution is detected.
+     *
+     * @param {number} row - The row index.
+     * @param {number} col - The column index.
+     * @throws {Error} - Throws an error if pollution is detected.
      */
-    check_if_question_polluted(row = 1, col = 1) {
-        const answer_is_unfilled = this.answer[row][col] === 0;
-        if( answer_is_unfilled ) {
+    check_if_question_is_polluted(row = 1, col = 1) {
+        /**
+         * No answer, No change, No pollution.
+         */
+        const not_answered = this.answer[row][col] === UNFILLED_NUMBER;
+        if( not_answered ) {
             return;
         }
-        if( this.question[row][col] === this.answer[row][col] ) {
+        /**
+         * If the question and answer are the same,
+         * throw an error indicating pollution.
+         */
+        const question_and_answer_are_equal = this.question[row][col] === this.answer[row][col];
+        if( question_and_answer_are_equal ) {
             debugger;
-            throw new Error("The question is polluted");
+            throw new Error(`The question is polluted in row ${row} and column ${col}`);
         }
     }
     

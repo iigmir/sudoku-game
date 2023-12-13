@@ -100,6 +100,5 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
     // Input action
     document.querySelector("*[name=sudoku-num]").addEventListener( "change", update_grid_with_panel );
-    update_grid_with_panel();
 });
 

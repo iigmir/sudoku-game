@@ -22,7 +22,13 @@ export const MarkIncorrectAnswerGrid = (legal = false, dom = Element) => {
     }
 };
 
-export const MarkHintsForAnswerGrid = (values = [], legal = false, dom = Element) => {
+/**
+ * Render all hints to a grid element.
+ * @param {Number[]} values 
+ * @param {Boolean} legal 
+ * @param {Element} dom A grid element
+ */
+export const MarkHintsToGrid = (values = [], legal = false, dom = Element) => {
     if (legal) {
         dom.dataset.hints = JSON.stringify(values);
     }

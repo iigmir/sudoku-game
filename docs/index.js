@@ -4,7 +4,7 @@ import { UNFILLED_NUMBER, SUDOKU_EXAMPLE } from "./constants.js";
 import {
     RenderGridText,
     MarkIncorrectAnswerGrid,
-    MarkHintsForAnswerGrid,
+    MarkHintsToGrid,
 } from "./rendering-modules.js";
 
 // Inited datas
@@ -83,7 +83,7 @@ const update_grid_with_panel = (ev) => {
 
         const values = sudoku_hints[row_index][col_index];
         MarkIncorrectAnswerGrid(legal, grid);
-        MarkHintsForAnswerGrid(values, legal, grid);
+        MarkHintsToGrid(values, legal, grid);
     });
 };
 

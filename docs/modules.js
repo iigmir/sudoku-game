@@ -31,6 +31,9 @@ const CheckArray = (answer = [], clues = []) => {
 
 export const GetCurrentGridDom = (row = 1, col = 1) => `#app .item[data-row="${row}"][data-col="${col}"]`;
 
+/**
+ * A list, a setting, a resetting.
+ */
 class BasicSubokuArea {
     /**
      * A standard Sudoku contains 81 cells, in a 9×9 grid, and has 9 boxes,
@@ -45,8 +48,8 @@ class SudokuClue extends BasicSubokuArea {}
 class SudokuAnswer extends BasicSubokuArea {
     /**
      * Unlike SudokuClue.list which is a fixed list,
-     * answer will change every time.
-     * This is why the "set_element" method exist.
+     * an answer list can change every time.
+     * This is why we create the "set_element" method.
      * @param {Number} row 
      * @param {Number} col 
      * @param {Number} value 
@@ -56,6 +59,10 @@ class SudokuAnswer extends BasicSubokuArea {
     }
 }
 
+/**
+ * The "SudokuController" state stores Sudoku clues and answers
+ * and render some other states useful for developing, like hints.
+ */
 export class SudokuController {
     // Init modules
     constructor(input) {
@@ -145,19 +152,35 @@ export class SudokuController {
     }
 }
 
+/**
+ * The GridState class stores the current state of row(row) and column(col),
+ * and whether a grid is selected or not(selected).
+ */
 class GridState {
+    /**
+     * Row
+     */
     row = 0;
     set_row(input = 0) {
         this.row = Number(input)
     }
+    /**
+     * Column
+     */
     col = 0;
     set_col(input = 0) {
         this.col = Number(input)
     }
+    /**
+     * Whether a grid is selected or not
+     */
     selected = false;
     set_selected(input = false) {
         this.selected = input;
     }
+    /**
+     * When everything failed, reset it.
+     */
     reset_grid_state() {
         this.set_col( 0 );
         this.set_row( 0 );
@@ -165,21 +188,33 @@ class GridState {
     }
 }
 
+/**
+ * The GridController class monitors the changings of rows and columns
+ * by given given DOM Element.
+ * The current states are stored "grid_state", a GridState object.
+ */
 export class GridController {
     grid_state = new GridState()
     get row() { return this.grid_state.row; }
     get col() { return this.grid_state.col; }
     get selected() { return this.grid_state.selected; }
 
-    set_by_given_dom(dom = Element) {
+    /**
+     * Convert the given DOM into grid state infos.
+     * @param {Element} dom 
+     */
+    set_grid_info(dom = Element) {
         this.grid_state.set_col( Number(dom.dataset.col) ?? 0 );
         this.grid_state.set_row( Number(dom.dataset.row) ?? 0 );
         this.grid_state.set_selected( !this.grid_state.selected );
     }
 
-    // Main event
+    /**
+     * The main event entry. You are nothing without me.
+     * @param {Element} dom
+     */
     select_grid_event(dom = Element) {
-        this.set_by_given_dom(dom);
+        this.set_grid_info(dom);
         RenderSelectionTextAndInfo(this.row, this.col, dom);
     }
 }

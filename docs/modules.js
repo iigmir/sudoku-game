@@ -76,12 +76,20 @@ export class SudokuController {
     set_element(row = 1, col = 1, value = 0) {
         if( this.question[row][col] === 0 ) {
             this.answer_object.set_element( row, col, value );
-
-            // The app must crash if question is polluted
-            if( this.question[row][col] === this.answer[row][col] && this.answer[row][col] !== 0 ) {
-                debugger;
-                throw new Error("Question array polluted");
-            }
+            this.check_if_question_polluted(row, col);
+        }
+    }
+    /**
+     * The app must crash if question is polluted.
+     */
+    check_if_question_polluted(row = 1, col = 1) {
+        const answer_is_unfilled = this.answer[row][col] === 0;
+        if( answer_is_unfilled ) {
+            return;
+        }
+        if( this.question[row][col] === this.answer[row][col] ) {
+            debugger;
+            throw new Error("The question is polluted");
         }
     }
     

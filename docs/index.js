@@ -22,7 +22,13 @@ const grid_has_filled = (dom = Element) => Boolean(dom.dataset.filled) === true;
 
 // Actions
 const render_questions = (question = []) => {
-    question.forEach( (row_array, index_row) => { row_array.forEach( RenderGridText(index_row) ); });
+    question.forEach( (row_array, index_row) => {
+        row_array.forEach( (item, index_col) => {
+            if( item > 0 ) {
+                RenderGridText(item, index_row, index_col);
+            }
+        });
+    });
 };
 
 /**
@@ -76,31 +82,19 @@ const update_grid_with_panel = (ev) => {
 
     // Check and mark incorrect answers
     const grids = [...document.querySelectorAll("#app .item")];
-    /**
-     * Check answered grids, see if it is legal.
-     * If not, make the grid invalid.
-     */
-    const mark_incorrect_answers = (dom, main_array = []) => {
-        const { legal } = get_grid_info(dom, main_array);
-
-        // Don't check question values
-        if ( legal == null ) {
-            return;
-        }
-
-        // Actions
-        MarkIncorrectAnswerGrid(legal, dom);
-    };
-    const mark_hints = (dom, main_array = [], sudoku_hints = []) => {
-        const { row_index, col_index, legal } = get_grid_info(dom, main_array);
-        const values = sudoku_hints[row_index][col_index];
-        MarkHintsForAnswerGrid(values, legal, dom);
-    };
     grids.forEach( (grid) => {
         const main_array = sudoku_app.answer;
         const sudoku_hints = sudoku_app.sudoku_hints;
-        mark_incorrect_answers(grid, main_array);
-        mark_hints(grid, main_array, sudoku_hints);
+        const { row_index, col_index, legal } = get_grid_info(grid, main_array);
+        
+        // Don't check question values
+        if( grid_has_filled(grid) ) {
+            return;
+        }
+
+        const values = sudoku_hints[row_index][col_index];
+        MarkIncorrectAnswerGrid(legal, grid);
+        MarkHintsForAnswerGrid(values, legal, grid);
     });
 };
 

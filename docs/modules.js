@@ -31,15 +31,20 @@ const CheckArray = (answer = [], question = []) => {
 
 export const GetCurrentGridDom = (row = 1, col = 1) => `#app .item[data-row="${row}"][data-col="${col}"]`;
 
+/**
+ * A standard Sudoku contains 81 cells, in a 9×9 grid, and has 9 boxes,
+ * each box being the intersection of the first, middle, or last 3 rows,
+ * and the first, middle, or last 3 columns.
+ */
 class BasicSubokuArea {
     list = [ [], [], [], [], [], [], [], [], [] ]
     set_list(input = []) { this.list = JSON.parse(JSON.stringify([...input])); }
     reset_list() { this.list = [ [], [], [], [], [], [], [], [], [] ]; }
 }
-class SudokuQuestion extends BasicSubokuArea {}
+class SudokuClue extends BasicSubokuArea {}
 class SudokuAnswer extends BasicSubokuArea {
     /**
-     * Unlike SudokuQuestion which is fixed list,
+     * Unlike SudokuClue.list which is a fixed list,
      * answer will change every time.
      * This is why the "set_element" method exist.
      * @param {Number} row 
@@ -62,17 +67,17 @@ export class SudokuController {
      * @param {Array} input 
      */
     init_state(input = []) {
-        this.set_question_object(input);
+        this.set_clue_object(input);
         this.set_answer_object(input); 
     }
 
     // Question modules
-    question_object = new SudokuQuestion()
+    clue_object = new SudokuClue()
     get question() {
-        return this.question_object.list;
+        return this.clue_object.list;
     }
-    set_question_object(input = []) {
-        this.question_object.set_list(input);
+    set_clue_object(input = []) {
+        this.clue_object.set_list(input);
     }
 
     // Answer modules
@@ -147,7 +152,7 @@ class GridState {
     set_selected(input = false) {
         this.selected = input;
     }
-    reset_grid() {
+    reset_grid_state() {
         this.set_col( 0 );
         this.set_row( 0 );
         this.set_selected( false );

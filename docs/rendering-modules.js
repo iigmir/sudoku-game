@@ -27,3 +27,11 @@ export const MarkHintsForAnswerGrid = (values = [], legal = false, dom = Element
         dom.dataset.hints = JSON.stringify(values);
     }
 };
+
+export const GetCurrentGridDom = (row = 1, col = 1) => `#app .item[data-row="${row}"][data-col="${col}"]`;
+
+export const RenderSelectionTextAndInfo = (row = 1, col = 1) => {
+    document.querySelector(".app-panel .info").textContent = `Row: ${row}; Col: ${col}`;
+    [...document.querySelectorAll("#app .item.selected")].forEach( d => d.classList.remove("selected") );
+    document.querySelector( GetCurrentGridDom(row, col) ).classList.add( "selected" );
+};

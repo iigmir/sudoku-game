@@ -1,5 +1,6 @@
 import { CheckIfGridLegal, GetAreaArrayByIndex } from "./algorithm.js";
 import { UNFILLED_NUMBER, AVAILABLE_VALUES } from "./constants.js";
+import { RenderSelectionTextAndInfo } from "./rendering-modules.js";
 
 const CheckArray = (answer = [], question = []) => {
     /**
@@ -165,17 +166,9 @@ export class GridController {
         this.grid_state.set_selected( !this.grid_state.selected );
     }
 
-    render_doms(dom = Element) {
-        document.querySelector(".app-panel .info").textContent = `Row: ${this.row}; Col: ${this.col}`;
-
-        // Selected class actions
-        [...document.querySelectorAll("#app .item.selected")].forEach( d => d.classList.remove("selected") );
-        document.querySelector( GetCurrentGridDom(this.row, this.col) ).classList.add( "selected" );
-    }
-
     // Main event
     select_grid_event(dom = Element) {
         this.set_by_given_dom(dom);
-        this.render_doms(dom);
+        RenderSelectionTextAndInfo(this.row, this.col, dom);
     }
 }

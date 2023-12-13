@@ -1,25 +1,24 @@
 import { GetAreaArrayByIndex } from "./algorithm.js";
 
-/**
- * If given `item` itself is question (same as the question number) or `0` which means unfilled,
- * then it must be legal because you can't be wrong for a question itself or an unanswered value.
- * @param {Number} row_index 
- * @param {Number} col_index 
- * @param {Number} item 
- * @returns {Boolean} Go
- */
-const CheckGridItemIsLegal = (row_index, col_index, item, question = [[]]) => {
-    const itself_is_question = 0 !== question[row_index][col_index];
-    if( itself_is_question ) {
-        return true;
-    }
-    if( item === 0 ) {
-        return true;
-    }
-    return false;
-}
-
 const CheckArray = (answer = [], question = []) => {
+    /**
+     * If given `item` itself is question (same as the question number) or `0` which means unfilled,
+     * then it must be legal because you can't be wrong for a question itself or an unanswered value.
+     * @param {Number} row_index 
+     * @param {Number} col_index 
+     * @param {Number} item 
+     * @returns {Boolean} Go
+     */
+    const CheckGridItemIsLegal = (row_index, col_index, item, question = [[]]) => {
+        const itself_is_question = 0 !== question[row_index][col_index];
+        if( itself_is_question ) {
+            return true;
+        }
+        if( item === 0 ) {
+            return true;
+        }
+        return false;
+    };
     return answer.map( (row, row_index, main_array) => row.map((item, col_index, row_array) => {
         if (CheckGridItemIsLegal(row_index, col_index, item, question)) {
             return true;

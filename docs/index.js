@@ -27,6 +27,8 @@ const get_index = (input) => Number(input) - 1;
 const sudoku_app = new SudokuController();
 const grid_app = new GridController();
 
+const grid_has_filled = (dom = Element) => dom.classList.contains("filled");
+
 // Actions
 const render_questions = (question = []) => {
     const render_grid_text = (index_row) => (item, index_col) => {
@@ -35,6 +37,7 @@ const render_questions = (question = []) => {
             const grid = document.querySelector(grid_selector);
             grid.textContent = item;
             grid.classList.add("filled");
+            grid.dataset.filled = true;
         }
     };
     question.forEach( (row_array, index_row) => { row_array.forEach( render_grid_text(index_row) ); });
@@ -46,7 +49,7 @@ const check_and_mark_incorrect_answers = () => {
         const main_array = sudoku_app.answer;
 
         // Don't check question values
-        const is_question = dom.classList.contains("filled");
+        const is_question = grid_has_filled( dom );
         if( is_question ) {
             return;
         }
@@ -57,7 +60,7 @@ const check_and_mark_incorrect_answers = () => {
         const legal = CheckIfGridLegal(row_index, col_index, main_array);
         if( legal ) {
             dom.classList.remove("invalid");
-            dom.classList.toggle( "changable", !dom.classList.contains("filled") );
+            dom.classList.toggle( "changable", !grid_has_filled( dom ) );
         } else {
             dom.classList.add("invalid");
         }
@@ -67,7 +70,7 @@ const check_and_mark_incorrect_answers = () => {
 const update_grid_with_panel = (ev) => {
     // Check current DOM is legal
     const current_dom = document.querySelector( GetCurrentGridDom(grid_app.row, grid_app.col) );
-    const current_dom_unavaiable = (element) => !element || element.classList.contains("filled");
+    const current_dom_unavaiable = (dom) => !dom || grid_has_filled( dom );
     if( current_dom_unavaiable(current_dom) ) {
         return;
     }

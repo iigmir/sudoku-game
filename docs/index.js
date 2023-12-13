@@ -53,6 +53,21 @@ const get_grid_info = (dom, main_array = []) => {
     };
 };
 
+const render_grid_action = (grid) => {
+    const main_array = sudoku_app.answer;
+    const sudoku_hints = sudoku_app.sudoku_hints;
+    const { row_index, col_index, legal } = get_grid_info(grid, main_array);
+
+    // Don't check clue values
+    if (grid_has_filled(grid)) {
+        return;
+    }
+
+    const values = sudoku_hints[row_index][col_index];
+    MarkIncorrectAnswerGrid(legal, grid);
+    MarkHintsToGrid(values, legal, grid);
+};
+
 const update_grid_with_panel = (ev) => {
     // Check current DOM is legal
     const current_dom = document.querySelector( GetCurrentGridDom(grid_app.row, grid_app.col) );
@@ -71,20 +86,7 @@ const update_grid_with_panel = (ev) => {
 
     // Check and mark incorrect answers
     const grids = [...document.querySelectorAll("#app .item")];
-    grids.forEach( (grid) => {
-        const main_array = sudoku_app.answer;
-        const sudoku_hints = sudoku_app.sudoku_hints;
-        const { row_index, col_index, legal } = get_grid_info(grid, main_array);
-        
-        // Don't check clue values
-        if( grid_has_filled(grid) ) {
-            return;
-        }
-
-        const values = sudoku_hints[row_index][col_index];
-        MarkIncorrectAnswerGrid(legal, grid);
-        MarkHintsToGrid(values, legal, grid);
-    });
+    grids.forEach( render_grid_action );
 };
 
 window.addEventListener("DOMContentLoaded", (event) => {
@@ -104,11 +106,18 @@ window.addEventListener("DOMContentLoaded", (event) => {
             grid_app.select_grid_event(ev.target)
         });
         // Marking hints
-        // console.log(el.dataset, sudoku_app.answer);
-        // const { row_index, col_index } = grid(el, sudoku_app.answer);
-        // console.log(row_index, col_index);
-        // const values = sudoku_app.sudoku_hints[row_index][col_index];
-        // MarkHintsToGrid(values, true, el);
+        // const main_array = sudoku_app.answer;
+        // const sudoku_hints = sudoku_app.sudoku_hints;
+        // const { row_index, col_index, legal } = get_grid_info(grid, main_array);
+        
+        // // Don't check clue values
+        // if( grid_has_filled(grid) ) {
+        //     return;
+        // }
+
+        // const values = sudoku_hints[row_index][col_index];
+        // MarkIncorrectAnswerGrid(legal, grid);
+        // MarkHintsToGrid(values, legal, grid);
     });
 
     // Input action

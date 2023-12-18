@@ -1,5 +1,10 @@
 import { UNFILLED_NUMBER } from "./constants.js";
 
+const HINTS_DATASET = "hints";
+
+const SELECTED_CSS_CLASS = "selected";
+const CHANGABLE_CSS_CLASS = "changable";
+
 const grid_has_filled = (dom = Element) => Boolean(dom.dataset.filled) === true;
 
 export const RenderGridText = ( item = 0, index_row = 1, index_col = 1 ) => {
@@ -19,7 +24,7 @@ export const RenderGridText = ( item = 0, index_row = 1, index_col = 1 ) => {
 export const MarkIncorrectAnswerGrid = (legal = false, dom = Element) => {
     dom.classList.toggle("invalid", !legal);
     if (legal) {
-        dom.classList.toggle("changable", !grid_has_filled(dom));
+        dom.classList.toggle( CHANGABLE_CSS_CLASS, !grid_has_filled(dom));
     }
 };
 
@@ -31,7 +36,7 @@ export const MarkIncorrectAnswerGrid = (legal = false, dom = Element) => {
  */
 export const MarkHintsToGrid = (values = [], legal = false, dom = Element) => {
     if (legal) {
-        dom.dataset.hints = JSON.stringify(values);
+        dom.dataset[HINTS_DATASET] = JSON.stringify(values);
     }
 };
 
@@ -43,9 +48,17 @@ export const GetCurrentGridDom = (row = 1, col = 1) => `#app .item[data-row="${r
  * @param {Number} col 
  */
 export const RenderSelectionTextAndInfo = (row = 1, col = 1) => {
-    document.querySelector(".app-panel .info").textContent = `Row: ${row}; Col: ${col}`;
+    const selected_grid = document.querySelector( GetCurrentGridDom(row, col) );
+    // Remind where you are and what you got
+    document.querySelector(".app-panel .info").textContent = `
+        Row: ${row};
+        Col: ${col};
+        You got: ${selected_grid.dataset[HINTS_DATASET]}
+    `;
+    // Remove all selected grids...
     [...document.querySelectorAll("#app .item.selected")].forEach( d => d.classList.remove("selected") );
-    document.querySelector( GetCurrentGridDom(row, col) ).classList.add( "selected" );
+    // ...Then mark selected grid.
+    selected_grid.classList.add( SELECTED_CSS_CLASS );
 };
 
 export const RenderCurrentGridValue = (row = 1, col = 1, value = 0) => {
@@ -56,5 +69,5 @@ export const RenderCurrentGridValue = (row = 1, col = 1, value = 0) => {
     }
     const is_unfilled_answer = value === UNFILLED_NUMBER;
     current_dom.textContent = is_unfilled_answer ? "" : value;
-    current_dom.classList.toggle( "changable", is_unfilled_answer );
+    current_dom.classList.toggle( CHANGABLE_CSS_CLASS, is_unfilled_answer );
 };

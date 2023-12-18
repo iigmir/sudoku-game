@@ -1,11 +1,12 @@
 import { UNFILLED_NUMBER } from "./constants.js";
 
 const HINTS_DATASET = "hints";
+const FILLED_DATASET = "filled";
 
 const SELECTED_CSS_CLASS = "selected";
 const CHANGABLE_CSS_CLASS = "changable";
 
-const grid_has_filled = (dom = Element) => Boolean(dom.dataset.filled) === true;
+const grid_has_filled = (dom = Element) => Boolean(dom.dataset[FILLED_DATASET]) === true;
 
 export const RenderGridText = ( item = 0, index_row = 1, index_col = 1 ) => {
     const grid_selector = `#app .item[data-row="${index_row + 1}"][data-col="${index_col + 1}"]`;
@@ -14,7 +15,7 @@ export const RenderGridText = ( item = 0, index_row = 1, index_col = 1 ) => {
     // Action
     grid.textContent = item;
     grid.classList.add("filled");
-    grid.dataset.filled = true;
+    grid.dataset[FILLED_DATASET] = true;
 };
 
 /**

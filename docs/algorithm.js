@@ -103,7 +103,7 @@ const N = 9;
  */
 export const SolveSudokuMain = (row_index = 0, col_index = 0, main_array = [[]], clues = [[]]) => {
     if (row_index == N - 1 && col_index == N) {
-        return true;
+        return main_array;
     }
     if (col_index == N) {
         row_index++;
@@ -117,13 +117,13 @@ export const SolveSudokuMain = (row_index = 0, col_index = 0, main_array = [[]],
         if( CheckIfGridLegal(row_index, col_index, main_array) ) {
             main_array[row_index][col_index] = num;
             if (SolveSudokuMain(row_index, col_index + 1, main_array, clues)) {
-                return true;
+                return main_array;
             }
         }
         main_array[row_index][col_index] = 0;
     }
 
-    return false;
+    return [];
 };
 
 export const CheckSudokuLegal = (input = [[]]) => {
@@ -141,12 +141,10 @@ export const SolveSudoku = (input = [[]]) => {
         const empty_answer = [ [], [], [], [], [], [], [], [], [], ];
         return empty_answer;
     }
-    // const clues = JSON.parse( JSON.stringify(input) );
-    const answers = SolveSudokuMain(
+    return SolveSudokuMain(
         0,
         0,
         JSON.parse( JSON.stringify(input) ),
         JSON.parse( JSON.stringify(input) )
     );
-    return answers;
 };

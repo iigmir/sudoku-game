@@ -1,5 +1,5 @@
 import { SudokuController, GridController, GetCurrentGridDom } from "./modules.js";
-import { CheckIfGridLegal } from "./algorithm.js";
+import { CheckIfGridLegal, SolveSudoku } from "./algorithm.js";
 import { SUDOKU_EXAMPLE } from "./constants.js";
 import {
     RenderGridText,
@@ -93,6 +93,7 @@ const update_grid_with_panel = (ev) => {
 
 const main = (event = Event) => {
     sudoku_app.init_state(SUDOKU_EXAMPLE);
+    console.log( SolveSudoku( SUDOKU_EXAMPLE ) );
     sudoku_app.clues.forEach((row_array, index_row) => {
         row_array.forEach((item, index_col) => {
             if (item > 0) {

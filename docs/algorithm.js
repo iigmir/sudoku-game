@@ -71,8 +71,8 @@ export const GetAreaArrayByIndex = (row_index = 0, col_index = 0, main_array = [
  * You must an unique number (not deplicated with other number unless you are `0`) at row, col, and box. If either of them is not, return `false`.
  * 
  * If wondering how row, col, and box are made, refer the `GetAreaArrayByIndex` function.
- * @param {Number} row_index value X
- * @param {Number} col_index value Y
+ * @param {Number} row_index Row index
+ * @param {Number} col_index Column index
  * @param {Array} main_array The array. The map.
  * @returns 
  */

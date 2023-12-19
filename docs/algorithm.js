@@ -92,6 +92,40 @@ export const CheckIfGridLegal = (row_index = 0, col_index = 0, main_array = []) 
     return true;
 };
 
+const N = 9;
+/**
+ * @see <https://www.geeksforgeeks.org/sudoku-backtracking-7>
+ * @param {Number} row_index 
+ * @param {Number} col_index 
+ * @param {Number[]} main_array 
+ * @param {Number[]} clues 
+ * @returns 
+ */
+export const SolveSudokuMain = (row_index = 0, col_index = 0, main_array = [[]], clues = [[]]) => {
+    if (row_index == N - 1 && col_index == N) {
+        return true;
+    }
+    if (col_index == N) {
+        row_index++;
+        col_index = 0;
+    }
+    if (main_array[row_index][col_index] != 0) {
+        return SolveSudokuMain(row_index, col_index + 1, main_array, clues);
+    }
+
+    for (let num = 0; num < 10; num++) {
+        if( CheckIfGridLegal(row_index, col_index, main_array) ) {
+            main_array[row_index][col_index] = num;
+            if (SolveSudokuMain(row_index, col_index + 1, main_array, clues)) {
+                return true;
+            }
+        }
+        main_array[row_index][col_index] = 0;
+    }
+
+    return false;
+};
+
 export const CheckSudokuLegal = (input = [[]]) => {
     if( Array.isArray(input) === false ) {
         return false;
@@ -107,7 +141,12 @@ export const SolveSudoku = (input = [[]]) => {
         const empty_answer = [ [], [], [], [], [], [], [], [], [], ];
         return empty_answer;
     }
-    const clues = JSON.parse( JSON.stringify(input) );
-    const answers = JSON.parse( JSON.stringify(input) );
+    // const clues = JSON.parse( JSON.stringify(input) );
+    const answers = SolveSudokuMain(
+        0,
+        0,
+        JSON.parse( JSON.stringify(input) ),
+        JSON.parse( JSON.stringify(input) )
+    );
     return answers;
 };

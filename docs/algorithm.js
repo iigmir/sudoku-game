@@ -92,6 +92,29 @@ export const CheckIfGridLegal = (row_index = 0, col_index = 0, main_array = []) 
     return true;
 };
 
+export const IsLegal = (row_index = 0, col_index = 0, main_array = [[]], num = 0) => {
+    // Row
+    if( [...main_array[row_index]].includes( num ) ) {
+        return false;
+    }
+    // Col
+	for(let x = 0; x < 9; x++) {
+		if (main_array[x][col_index] == num) {
+            return false;
+        }
+    }
+    // Box
+	let startRow = row_index - row_index % 3, startCol = col_index - col_index % 3;
+	for(let i = 0; i < 3; i++) {
+		for(let j = 0; j < 3; j++) {
+            if (main_array[i + startRow][j + startCol] == num) {
+                return false;
+            }
+        }
+    }
+	return true;
+}
+
 const N = 9;
 /**
  * @see <https://www.geeksforgeeks.org/sudoku-backtracking-7>

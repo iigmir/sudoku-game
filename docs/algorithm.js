@@ -137,7 +137,7 @@ export const SolveSudokuMain = (row_index = 0, col_index = 0, main_array = [[]],
     }
 
     for (let num = 0; num < 10; num++) {
-        if( CheckIfGridLegal(row_index, col_index, main_array) ) {
+        if( IsLegal(row_index, col_index, main_array, num) ) {
             main_array[row_index][col_index] = num;
             if (SolveSudokuMain(row_index, col_index + 1, main_array, clues)) {
                 return main_array;

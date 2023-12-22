@@ -92,7 +92,7 @@ export const CheckIfGridLegal = (row_index = 0, col_index = 0, main_array = []) 
     return true;
 };
 
-export const IsLegal = (row_index = 0, col_index = 0, main_array = [[]], num = 0) => {
+export const IsLegal = (row_index, col_index, main_array, num) => {
     // Row
     if( [...main_array[row_index]].includes( num ) ) {
         return false;

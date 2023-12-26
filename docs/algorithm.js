@@ -160,14 +160,14 @@ export const CheckSudokuLegal = (input = [[]]) => {
 };
 
 export const SolveSudoku = (input = [[]]) => {
+    const empty_answer = [ [], [], [], [], [], [], [], [], [], ];
     if( CheckSudokuLegal(input) === false ) {
-        const empty_answer = [ [], [], [], [], [], [], [], [], [], ];
         return empty_answer;
     }
-    return SolveSudokuMain(
-        0,
-        0,
-        JSON.parse( JSON.stringify(input) ),
-        JSON.parse( JSON.stringify(input) )
-    );
+    const cloned_source = JSON.parse( JSON.stringify(input) );
+    const answered = SolveSudokuMain( 0, 0, input, input );
+    if( answered ) {
+        return { input: cloned_source, output: input };
+    }
+    return { input: cloned_source, output: empty_answer };
 };

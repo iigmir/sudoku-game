@@ -93,7 +93,6 @@ const update_grid_with_panel = (ev) => {
 
 const main = (event = Event) => {
     sudoku_app.init_state(SUDOKU_EXAMPLE);
-    console.log( SolveSudoku( SUDOKU_EXAMPLE ) );
     sudoku_app.clues.forEach((row_array, index_row) => {
         row_array.forEach((item, index_col) => {
             if (item > 0) {
@@ -113,6 +112,9 @@ const main = (event = Event) => {
 
     // Input action
     document.querySelector("*[name=sudoku-num]").addEventListener("change", update_grid_with_panel);
+    document.querySelector("#sudoku-answer .btn").addEventListener("click", () => {
+        document.querySelector("#sudoku-answer .answer").textContent = JSON.stringify( SolveSudoku(sudoku_app.clues).output );
+    });
 };
 
 window.addEventListener("DOMContentLoaded", main );

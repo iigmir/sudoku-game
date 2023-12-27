@@ -92,23 +92,25 @@ const update_grid_with_panel = (ev) => {
 };
 
 const main = (event = Event) => {
-    sudoku_app.init_state(SUDOKU_EXAMPLE);
-    sudoku_app.clues.forEach((row_array, index_row) => {
+    const render_clues_to_grid = (row_array, index_row) => {
         row_array.forEach((item, index_col) => {
             if (item > 0) {
                 RenderGridText(item, index_row, index_col);
             }
         });
-    });
+    };
+    sudoku_app.init_state(SUDOKU_EXAMPLE);
+    sudoku_app.clues.forEach(render_clues_to_grid);
 
     // Grid action
-    const grids = [...document.querySelectorAll("#app .item")];
-    grids.forEach(grid => {
+    const assign_grids = (grid) => {
         grid.addEventListener("click", ev => {
             grid_app.select_grid_event(ev.target);
         });
         render_sudoku_grid(grid);
-    });
+    };
+    const grids = [...document.querySelectorAll("#app .item")];
+    grids.forEach(assign_grids);
 
     // Input action
     document.querySelector("*[name=sudoku-num]").addEventListener("change", update_grid_with_panel);
